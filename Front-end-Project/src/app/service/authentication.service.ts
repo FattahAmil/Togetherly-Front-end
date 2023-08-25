@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { catchError, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
+import { Response } from '../model/Response';
 
 @Injectable({
   providedIn: 'root'
@@ -21,11 +22,8 @@ export class AuthenticationService {
   login(user: object): Observable<any> {
     return this.http.post<any>(`${this.url}/login`, user).pipe(
       tap(response => {
-        // Assuming your API response contains a token
-        const token = response.token;
-
-        // Store token in sessionStorage
-        sessionStorage.setItem('auth_token', token);
+        const data = response as Response;
+        sessionStorage.setItem('auth_token', data.body.access_token);
       }),
       catchError(error => {
         // Handle login error here

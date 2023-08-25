@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule   } from '@angular/forms';
 import { Router } from "@angular/router";
+import { Response } from 'src/app/model/Response';
 import {AuthenticationService} from 'src/app/service/authentication.service';
 
 @Component({
@@ -23,6 +24,7 @@ export class RegisterPageComponent {
       })
     }
     form!:FormGroup;
+    isAlert:boolean=false;
 
   loginPage(){
     this.router.navigate(['login']);
@@ -36,14 +38,27 @@ export class RegisterPageComponent {
       password:this.form.get('password')?.value,
     } 
     this.AuthenticationService.register(user).subscribe(
-      (data) => {
-          console.log(data);
-          this.loginPage();
+      (response) => {
+        const data = response as Response;
+        const toast = document.getElementById("toast");
+        const message ='<div class="p-4 border-l-4 border-red-500 rounded-r-xl bg-red-50"><div class="flex"><div class="flex-shrink-0"><svg class="w-5 h-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg></div><div class="ml-3"><div class="text-sm text-red-600"><p>'+data.body+'</p></div></div></div></div>';
+          
+        if (data.statusCodeValue === 200) {
+              this.router.navigate(['login']);
+          }
+        if (toast) {
+          toast.classList.remove("hidden");
+          toast.innerHTML += message;
+          setTimeout(() => {
+            toast.classList.add("hidden");
+        }, 3000);
+
+        }
       },
       (error) => {
           console.error("An error occurred:", error);
           // Handle the error, show an error message, etc.
       }
-  );
+  );  
   }
 }
