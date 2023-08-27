@@ -1,1 +1,13 @@
-<p>index-page works!</p>
+<app-nav-bar></app-nav-bar>
+<div class="grid grid-cols-1 px-4 gap-4 lg:grid-cols-4 lg:gap-8">
+    <div class="">
+        <app-show-profile></app-show-profile>
+    </div>
+    <div class="lg:col-span-2">
+        <app-create-post></app-create-post>
+        <app-show-post></app-show-post>
+    </div>
+    <div class="w-full max-w-md p-4  bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+        <app-show-followers></app-show-followers>
+    </div>
+</div>

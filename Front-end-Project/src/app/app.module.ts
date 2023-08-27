@@ -11,6 +11,7 @@ import { NavBarComponent } from './component/nav-bar/nav-bar.component';
 import { CreatePostComponent } from './component/create-post/create-post.component';
 import { ShowPostComponent } from './component/show-post/show-post.component';
 import { ShowFollowersComponent } from './component/show-followers/show-followers.component';
+import { ShowProfileComponent } from './component/show-profile/show-profile.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ShowFollowersComponent } from './component/show-followers/show-follower
     NavBarComponent,
     CreatePostComponent,
     ShowPostComponent,
-    ShowFollowersComponent
+    ShowFollowersComponent,
+    ShowProfileComponent
   ],
   imports: [
     BrowserModule,
