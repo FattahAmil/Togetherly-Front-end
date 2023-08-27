@@ -1,5 +1,14 @@
 <div class=" flex flex-col p-5  bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+    <div class="flex items-center justify-between">
     <label for="message" class="block mb-2 text-xl font-bold text-gray-900 dark:text-white">Create Your Post</label>
+    <div class="mb-2 rounded-md  hover:bg-gray-100 p-2 w-fit h-fit ">
+        <label class="relative inline-flex items-center mr-3 cursor-pointer">
+            <input type="checkbox" value="" class="sr-only peer" checked>
+            <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+            <span class="ml-2  font-medium text-gray-900 dark:text-gray-300">Is Event</span>
+        </label>
+    </div>
+    </div>
     <textarea id="message" rows="2" class="block p-3 w-full  text-sm text-gray-900 bg-gray-50 rounded-3xl border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
     <div class="flex items-center justify-between">
         <div class="  p-3 w-fit h-fit justify-center flex mt-3 rounded-md  hover:bg-gray-100 ">
@@ -11,13 +20,7 @@
                 <p class="font-medium text-black">Media</p>
             </label>
         </div>
-        <div class="mt-4 rounded-md  hover:bg-gray-100 p-2 w-fit h-fit ">
-            <label class="relative inline-flex items-center mr-3 cursor-pointer">
-                <input type="checkbox" value="" class="sr-only peer" checked>
-                <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                <span class="ml-2  font-medium text-gray-900 dark:text-gray-300">Is Event</span>
-            </label>
-        </div>
+       
         <div class="mt-3">
             <button type="button" class="text-black gap-2 border shadow hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3.5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                 Send

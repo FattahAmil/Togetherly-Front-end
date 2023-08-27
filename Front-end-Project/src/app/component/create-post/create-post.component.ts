@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FileHandle } from 'src/app/model/FileHandle';
-import { post } from 'src/app/model/post';
+import { post } from 'src/app/model/Post';
 
 @Component({
   selector: 'app-create-post',
