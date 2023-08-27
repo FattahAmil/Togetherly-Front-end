@@ -30,22 +30,18 @@
             </button>             
         </div>
     </div>
-    <div  class="flex gap-4 mt-2 snap-x">
+    <div class="flex gap-4 mt-2 snap-x">
         <div class="relative group" *ngFor="let file of post.media;let i=index;">
-            <img class="max-h-[125px] max-w-full rounded-lg hover:opacity-70 transition-opacity duration-300" [src]="file.url" alt="">
+            <img *ngIf="isImage(i)" class="max-h-[125px] max-w-full rounded-lg hover:opacity-70 transition-opacity duration-300" [src]="file.url" alt="">
+            <video *ngIf="isVideo(i)" class="max-h-[125px] max-w-full rounded-lg hover:opacity-70 transition-opacity duration-300">
+                <source [src]="file.url" type="video/mp4">
+            </video>
             <div (click)="removeMedia(i)" class="absolute cursor-pointer inset-0 w-6 h-5 flex opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </div>
         </div>
-        
-        
-        
-        
-        
-        
-        
     </div>
 <div>
 

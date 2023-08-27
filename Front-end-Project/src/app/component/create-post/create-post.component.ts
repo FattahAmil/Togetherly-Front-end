@@ -27,6 +27,18 @@ export class CreatePostComponent {
   }
  }
  removeMedia(i:number){
+   console.log(this.post.media[i].file.type)
   this.post.media.splice(i,1);
+ 
+ }
+ 
+ isImage(i:number):boolean{
+  const url = this.post.media[i].file.type;
+  return url.endsWith('jpg') || url.endsWith('jpeg') || url.endsWith('png');
+ }
+
+ isVideo(i:number):boolean{
+  const url = this.post.media[i].file.type;
+  return url.endsWith('mp4') || url.endsWith('mov') || url.endsWith('avi');
  }
 }
