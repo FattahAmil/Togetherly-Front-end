@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { UserResponse } from 'src/app/model/UserResponse';
 
 @Component({
   selector: 'app-nav-bar',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent {
-
+  @Input()
+  userDetails: UserResponse = new UserResponse;
 }
