@@ -12,6 +12,7 @@ import { CreatePostComponent } from './component/create-post/create-post.compone
 import { ShowPostComponent } from './component/show-post/show-post.component';
 import { ShowFollowersComponent } from './component/show-followers/show-followers.component';
 import { ShowProfileComponent } from './component/show-profile/show-profile.component';
+import { ShowLatestMessagesComponent } from './component/show-latest-messages/show-latest-messages.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { ShowProfileComponent } from './component/show-profile/show-profile.comp
     CreatePostComponent,
     ShowPostComponent,
     ShowFollowersComponent,
-    ShowProfileComponent
+    ShowProfileComponent,
+    ShowLatestMessagesComponent
   ],
   imports: [
     BrowserModule,
