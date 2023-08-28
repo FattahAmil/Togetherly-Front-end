@@ -1,7 +1,7 @@
 <app-nav-bar></app-nav-bar>
 <div class="grid grid-cols-1 px-4 gap-4 lg:grid-cols-4 lg:gap-8">
     <div class="">
-        <app-show-profile></app-show-profile>
+        <app-show-profile [userDetails]="userDetails"></app-show-profile>
     </div>
     <div class="lg:col-span-2 gap-4 flex flex-col">
         <app-create-post></app-create-post>

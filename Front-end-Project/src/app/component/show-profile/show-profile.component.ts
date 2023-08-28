@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { UserResponse } from 'src/app/model/UserResponse';
+import { UserService } from "src/app/service/user.service";
+
 
 @Component({
   selector: 'app-show-profile',
@@ -6,5 +9,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./show-profile.component.css']
 })
 export class ShowProfileComponent {
+ @Input()
+  userDetails: UserResponse = new UserResponse;
+
+ 
 
 }

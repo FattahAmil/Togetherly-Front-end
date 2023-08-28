@@ -14,6 +14,7 @@ import { ShowFollowersComponent } from './component/show-followers/show-follower
 import { ShowProfileComponent } from './component/show-profile/show-profile.component';
 import { ShowLatestMessagesComponent } from './component/show-latest-messages/show-latest-messages.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,

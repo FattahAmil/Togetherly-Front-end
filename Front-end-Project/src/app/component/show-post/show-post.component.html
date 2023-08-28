@@ -4,7 +4,7 @@
 			<img src="https://source.unsplash.com/50x50/?portrait" alt="" class="object-cover mx-2 object-center w-8 h-8 rounded-full shadow-sm dark:bg-gray-500 dark:border-gray-700">
 			<div class="-space-y-1">
 				<h2 class="text-sm font-semibold leadi">leroy_jenkins72</h2>
-				<span class="inline-block text-xs leadi dark:text-gray-400">Somewhere</span>
+				<span class="inline-block text-xs leadi dark:text-gray-400">2 hours ago</span>
 			</div>
 		</div>
 		<button title="Open options" type="button">
@@ -15,7 +15,35 @@
 			</svg>
 		</button>
 	</div>
-	<img src="https://source.unsplash.com/301x301/?random" alt="" class="object-cover object-center w-full h-72 dark:bg-gray-500">
+	
+	<div id="gallery" class="relative w-full" data-carousel="slide">
+		<div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+		  <div class="duration-700 ease-in-out" data-carousel-item>
+			<img src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg" class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
+		  </div>
+		  <div class="hidden duration-700 ease-in-out" data-carousel-item="active">
+			<img src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg" class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
+		  </div>
+		</div>
+		<!-- Slider controls -->
+		<button type="button" class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+			<span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+				<svg class="w-4 h-4 text-white dark:text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+					<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+				</svg>
+				<span class="sr-only">Previous</span>
+			</span>
+		</button>
+		<button type="button" class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+			<span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+				<svg class="w-4 h-4 text-white dark:text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+					<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+				</svg>
+				<span class="sr-only">Next</span>
+			</span>
+		</button>
+	</div>
+
 	<div class="p-3">
 		<div class="flex items-center justify-between">
 			<div class="flex items-center space-x-3">
@@ -33,22 +61,31 @@
 		</div>
 		<div class="flex flex-wrap items-center pt-3 pb-1">
 			<div class="flex items-center space-x-2">
-				<div class="flex -space-x-1">
-					<img alt="" class="w-5 h-5 border rounded-full dark:bg-gray-500 dark:border-gray-800" src="https://source.unsplash.com/40x40/?portrait?1">
-					<img alt="" class="w-5 h-5 border rounded-full dark:bg-gray-500 dark:border-gray-800" src="https://source.unsplash.com/40x40/?portrait?2">
-					<img alt="" class="w-5 h-5 border rounded-full dark:bg-gray-500 dark:border-gray-800" src="https://source.unsplash.com/40x40/?portrait?3">
-				</div>
 				<span class="text-sm">Liked by
-					<span class="font-semibold">Mamba UI</span>and
-					<span class="font-semibold">86 others</span>
+					<span class="font-semibold">86 person</span>
 				</span>
 			</div>
 		</div>
-		<div class="space-y-3">
-			<p class="text-sm">
-				<span class="text-base font-semibold">leroy_jenkins72</span>Nemo ea quasi debitis impedit!
-			</p>
-			<input type="text" placeholder="Add a comment..." class="w-full py-0.5 dark:bg-transparent border-none rounded text-sm pl-0 dark:text-gray-100">
+		<div class="flex">
+			<span class="text-sm font-semibold">leroy_jenkins72
+				<span class="text-sm font-normal">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac nisl eu justo commodo varius. Suspendisse potenti. 
+					Fusce id volutpat ante, in cursus quam. Nullam id felis nec lectus venenatis accumsan. </span>
+			</span>
 		</div>
+		<div>
+			<span class="text-xs cursor-pointer font-normal text-gray-400">View All 4000 Comments</span>
+		</div>
+		<div class="space-y-3  mt-4 p-2">
+			<div class="flex">
+				<img src="https://source.unsplash.com/50x50/?portrait" alt="" class="object-cover mx-2 object-center w-8 h-8 rounded-full shadow-sm dark:bg-gray-500 dark:border-gray-700">
+				<span class="text-sm font-semibold">leroy_jenkins72
+					<span class="text-sm font-normal">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac nisl eu justo commodo varius. Suspendisse potenti. 
+						Fusce id volutpat ante, in cursus quam. Nullam id felis nec lectus venenatis accumsan.</span>
+				</span>
+				
+			</div>
+			<span class="text-xs ml-14 font-normal text-gray-400">3h</span>
+		</div>
+		
 	</div>
 </div>
