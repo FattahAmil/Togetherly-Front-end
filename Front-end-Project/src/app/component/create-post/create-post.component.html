@@ -21,8 +21,8 @@
             </label>
         </div>
        
-        <div class="mt-3">
-            <button type="button" class="text-black gap-2 border shadow hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3.5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+        <div class="mt-3" (click)="onCreate()">
+            <button type="button"  class="text-black gap-2 border shadow hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3.5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                 Send
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
@@ -31,10 +31,10 @@
         </div>
     </div>
     <div class="flex gap-4 mt-2 snap-x">
-        <div class="relative group" *ngFor="let file of post.media;let i=index;">
-            <img *ngIf="isImage(i)" class="max-h-[125px] max-w-full rounded-lg hover:opacity-70 transition-opacity duration-300" [src]="file.url" alt="">
+        <div class="relative group" *ngFor="let file of post.mediaList;let i=index;">
+            <img *ngIf="isImage(i)" class="max-h-[125px] max-w-full rounded-lg hover:opacity-70 transition-opacity duration-300" [src]="file.mediaUrl" alt="">
             <video *ngIf="isVideo(i)" class="max-h-[125px] max-w-full rounded-lg hover:opacity-70 transition-opacity duration-300" controls>
-                <source [src]="file.url" type="video/mp4">
+                <source [src]="file.mediaUrl" type="video/mp4">
             </video>
             <div (click)="removeMedia(i)" class="absolute cursor-pointer inset-0 w-6 h-5 text-red-600 flex opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">

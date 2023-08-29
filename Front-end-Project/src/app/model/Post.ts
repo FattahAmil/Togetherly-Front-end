@@ -1,7 +1,8 @@
 import { FileHandle } from "./FileHandle";
 
-export interface post{
+export interface Post{
     content:string,
     isEvent:boolean,
-    media:FileHandle[]
+    id:string,
+    mediaList:FileHandle[]
 }
