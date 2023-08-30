@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { UserService } from "src/app/service/user.service";
 import { UserResponse } from 'src/app/model/UserResponse';
+import { DecodeJwt } from 'src/app/model/DecodeJwtToken';
+import { AuthenticationService } from 'src/app/service/authentication.service';
+import jwt_decode from 'jwt-decode';
 @Component({
   selector: 'app-index-page',
   templateUrl: './index-page.component.html',
@@ -9,13 +12,20 @@ import { UserResponse } from 'src/app/model/UserResponse';
 export class IndexPageComponent implements OnInit {
   constructor(private userServ:UserService) {
   }
-   userDetails: UserResponse = new UserResponse;
-   userName!:string;
-   userEmail!:string;
-   userImage!:string;
+  jwtToken:any=inject(AuthenticationService).getToken();
+  decodeJwt:DecodeJwt=jwt_decode(this.jwtToken);
+  userDetails: UserResponse = new UserResponse;
+  userName!:string;
+  userEmail!:string;
+  userImage!:string;
   ngOnInit() {
     this.getUserDetails()
+    
   }
+  checkRoleAdminTeacher(){
+    return (this.decodeJwt.roles[0] =='ROLE_ADMIN' || this.decodeJwt.roles[0] == 'ROLE_TEACHER');
+  }
+
   getUserDetails(){
     this.userServ.getUserToken().subscribe(
       (userData) => {

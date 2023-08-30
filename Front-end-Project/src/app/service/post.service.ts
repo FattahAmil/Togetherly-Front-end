@@ -1,9 +1,7 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Post } from '../model/Post';
-import { catchError, tap } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +9,18 @@ import { Observable, of } from 'rxjs';
 export class PostService {
   private url = 'http://127.0.0.1:8082/posts';
 
+   headers = new HttpHeaders({
+    'Content-Type':'application/json',
+    'Authorization':'Bearer '+inject(AuthenticationService).getToken()
+   });
+  
+
   constructor(private http: HttpClient, private router: Router) {}
+
 
   createPost(post: object): void {
     console.log(post);
-    this.http.post<any>(`${this.url}/create`, post)
+    this.http.post<any>(`${this.url}/create`, post,{headers:this.headers})
       .subscribe(
         response => {
           // Handle the response here

@@ -26,7 +26,9 @@ export class CreatePostComponent {
   if (event.target.files) {
     const file=event.target.files[0];
     const reader = new FileReader();
-         
+     if (!file) {
+          return;
+    }
     reader.onload= (e) => {
       this.fileData=reader.result
    
@@ -34,6 +36,9 @@ export class CreatePostComponent {
     reader.readAsText(file);
     const fileHandle:FileHandle={
       file: file,
+      fileName:file.name,
+      fileSize:file.size,
+      fileType:file.type,
       mediaUrl: this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file)),
       fileContent:window.URL.createObjectURL(file),
     };
@@ -44,7 +49,7 @@ export class CreatePostComponent {
 
 onCreate(){
   this.post.id=this.userDetails.body.id;
-  console.log();
+  
   
   this.postService.createPost(this.post);
 }
