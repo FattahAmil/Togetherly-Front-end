@@ -1,8 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Observable, ReplaySubject } from 'rxjs';
 import { FileHandle } from 'src/app/model/FileHandle';
 import { Post } from 'src/app/model/Post';
 import { UserResponse } from 'src/app/model/UserResponse';
+import { CommunicationServiceService } from 'src/app/service/communication-service.service';
 import { PostService } from "src/app/service/post.service";
 
 @Component({
@@ -10,17 +12,25 @@ import { PostService } from "src/app/service/post.service";
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.css']
 })
-export class CreatePostComponent {
-  constructor(private sanitizer:DomSanitizer,private postService:PostService){}
+export class CreatePostComponent implements OnInit{
+  messageTextArea: HTMLInputElement|undefined ;
+  constructor(private sanitizer:DomSanitizer,private postService:PostService,private communicationService: CommunicationServiceService){}
+  ngOnInit(): void {
+    this.messageTextArea = document.getElementById('message') as HTMLInputElement;
+  }
  post:Post={
   content:"",
   id:"",
   isEvent:false,
   mediaList:[]
  }
+
+
  fileData:any;
  @Input()
  userDetails: UserResponse = new UserResponse;
+
+
 
  onMediaSelected(event:any){
   if (event.target.files) {
@@ -34,40 +44,61 @@ export class CreatePostComponent {
    
     };
     reader.readAsText(file);
-    const fileHandle:FileHandle={
-      file: file,
-      fileName:file.name,
-      fileSize:file.size,
-      fileType:file.type,
-      mediaUrl: this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file)),
-      fileContent:window.URL.createObjectURL(file),
-    };
-    this.post.mediaList.push(fileHandle);
-    console.log(this.post);
+    let myFile:string;
+    let fileHandle:FileHandle;
+    this.convertFile(file).subscribe(fileConverted => {myFile = fileConverted; 
+       fileHandle={
+        fileName:file.name,
+        fileSize:file.size,
+        fileType:file.type,
+        mediaUrl: this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file)),
+       // fileContent:window.URL.createObjectURL(file),
+       fileContent:myFile,
+      };
+      this.post.mediaList.push(fileHandle);
+      console.log(fileHandle);
+    })
+
+    
   }
  }
 
 onCreate(){
   this.post.id=this.userDetails.body.id;
-  
-  
   this.postService.createPost(this.post);
+  this.post.mediaList=[];
+  if (this.messageTextArea) {
+  this.messageTextArea.value=' ';
+  }
+ 
+ 
+  this.communicationService.triggerFunction();
+  
+  
+}
+convertFile(file : File) : Observable<string> {
+  const result = new ReplaySubject<string>(1);
+  const reader = new FileReader();
+  reader.readAsBinaryString(file);
+  // @ts-ignore
+  reader.onload = (event) => result.next(btoa(event.target.result.toString()));
+  return result;
 }
 
 
  removeMedia(i:number){
-   console.log(this.post.mediaList[i].file.type)
+   console.log(this.post.mediaList[i])
   this.post.mediaList.splice(i,1);
  
  }
  
  isImage(i:number):boolean{
-  const url = this.post.mediaList[i].file.type;
+  const url = this.post.mediaList[i].fileType;
   return url.endsWith('jpg') || url.endsWith('jpeg') || url.endsWith('png');
  }
 
  isVideo(i:number):boolean{
-  const url = this.post.mediaList[i].file.type;
+  const url = this.post.mediaList[i].fileType;
   return url.endsWith('mp4') || url.endsWith('mov') || url.endsWith('avi');
  }
 }

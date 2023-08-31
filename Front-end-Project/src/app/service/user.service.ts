@@ -8,6 +8,7 @@ import { Response } from '../model/Response';
 import { AuthenticationService } from "./authentication.service";
 import jwt_decode from 'jwt-decode';
 import { DecodeJwt } from "../model/DecodeJwtToken";
+import { FollowReq } from '../model/FollowReq';
 
 @Injectable({
   providedIn: 'root'
@@ -20,13 +21,20 @@ export class UserService {
   
   getUserToken(): Observable<any>{
     const token = this.authService.getToken();
-    console.log(token);
+    
     if (token) {
       const decodeJwt: DecodeJwt = jwt_decode(token);
       const email: string = decodeJwt.sub;
      return this.http.get<any>(`${this.url}/email/` + email)
     }
     return of(null);
+  }
+  followReq(followReq:FollowReq):Observable<any>{
+    return this.http.post(`${this.url}/follow`,followReq);
+  }
+
+  getUserNotFollwed(id:String):Observable<any>{
+    return  this.http.get(`${this.url}/notFollowed/${id}`);
   }
   
 }

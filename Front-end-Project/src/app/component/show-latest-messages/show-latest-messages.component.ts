@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { UserResponse } from 'src/app/model/UserResponse';
 
 @Component({
   selector: 'app-show-latest-messages',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./show-latest-messages.component.css']
 })
 export class ShowLatestMessagesComponent {
-
+  @Input()
+  userDetails: UserResponse = new UserResponse;
 }

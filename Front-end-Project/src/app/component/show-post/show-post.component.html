@@ -1,10 +1,10 @@
-<div class="bg-white mb-4 border border-gray-200 rounded-lg shadow  dark:bg-gray-800 dark:border-gray-700">
+<div *ngFor="let post of posts;let i=index;" class="bg-white mb-4 border border-gray-200 rounded-lg shadow  dark:bg-gray-800 dark:border-gray-700">
 	<div class="flex items-center justify-between p-3">
 		<div class="flex items-center space-x-2">
-			<img src="https://source.unsplash.com/50x50/?portrait" alt="" class="object-cover mx-2 object-center w-8 h-8 rounded-full shadow-sm dark:bg-gray-500 dark:border-gray-700">
+			<img [src]="post.user.profileImage" alt="" class="object-cover mx-2 object-center w-8 h-8 rounded-full shadow-sm dark:bg-gray-500 dark:border-gray-700">
 			<div class="-space-y-1">
-				<h2 class="text-sm font-semibold leadi">leroy_jenkins72</h2>
-				<span class="inline-block text-xs leadi dark:text-gray-400">2 hours ago</span>
+				<h2 class="text-sm font-semibold leadi">{{post.user.firstName+' '+post.user.lastName}}</h2>
+				<span class="inline-block text-xs leadi dark:text-gray-400">{{timeGenerator(post.created_at)}}</span>
 			</div>
 		</div>
 		<button title="Open options" type="button">
@@ -15,17 +15,38 @@
 			</svg>
 		</button>
 	</div>
-	
-	<div id="gallery" class="relative w-full" data-carousel="slide">
+	<div class="flex flex-col items-center">
+		<div *ngIf="!ifTherIsMedia(i)" class=" flex rounded-lg shadow-lg w-11/12 h-[100px] ">
+			<h5 class="m-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{post.content}}</h5>
+
+		</div>
+	</div>
+	<div *ngIf="ifTherIsMedia(i)" class="flex gap-2">
+        <div *ngFor="let Media of post.mediaList;let i=index;">
+            <img *ngIf="isImage(Media.fileType)" class="max-h-[400px] max-w-full rounded-lg hover:opacity-70 transition-opacity duration-300" [src]="pathGen(Media.mediaData)"   alt="">
+			<video *ngIf="isVideo(Media.fileType)" class="max-h-[400px] max-w-full rounded-lg hover:opacity-70 transition-opacity duration-300" controls>
+                <source [src]="pathGen(Media.mediaData)" type="video/mp4">
+            </video>
+		</div>
+    </div>
+
+
+	<!--<div *ngIf="ifTherIsMedia(i)" class="flex gap-4 mt-2 snap-x">
+        <div class="relative group" *ngFor="let Media of post.mediaList;let i=index;">
+            <img *ngIf="isImage(Media.fileType)" class="max-h-full max-w-full rounded-lg hover:opacity-70 transition-opacity duration-300" [src]="pathGen(Media.mediaData)" alt="">
+            <video *ngIf="isVideo(Media.fileType)" class="max-h-[125px] max-w-full rounded-lg hover:opacity-70 transition-opacity duration-300" controls>
+                <source [src]="pathGen(Media.mediaData)" type="video/mp4">
+            </video>
+        </div>
+    </div>
+	<div *ngIf="ifTherIsMedia(i)" id="gallery" class="relative w-full" data-carousel="slide">
 		<div class="relative h-56 overflow-hidden rounded-t-lg md:h-96">
-		  <div class="duration-700 ease-in-out" data-carousel-item>
-			<img src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg" class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
-		  </div>
-		  <div class="hidden duration-700 ease-in-out" data-carousel-item="active">
-			<img src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg" class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
+		  <div  *ngFor="let Media of post.mediaList" class="duration-700 ease-in-out" data-carousel-item="active">
+			<img  [src]="convertImage(Media.mediaData,Media.fileType)" class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
 		  </div>
 		</div>
-		<!-- Slider controls -->
+		
+		Slider controls 
 		<button type="button" class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
 			<span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
 				<svg class="w-4 h-4 text-white dark:text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
@@ -43,11 +64,11 @@
 			</span>
 		</button>
 	</div>
-
+-->
 	<div class="p-3">
 		<div class="flex items-center justify-between">
 			<div class="flex items-center space-x-3">
-				<button type="button" title="Like post" class="flex items-center justify-center">
+				<button type="button" (click)="likePost(post.id)" title="Like post" class="flex items-center justify-center">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-5 h-5 fill-current">
 						<path d="M453.122,79.012a128,128,0,0,0-181.087.068l-15.511,15.7L241.142,79.114l-.1-.1a128,128,0,0,0-181.02,0l-6.91,6.91a128,128,0,0,0,0,181.019L235.485,449.314l20.595,21.578.491-.492.533.533L276.4,450.574,460.032,266.94a128.147,128.147,0,0,0,0-181.019ZM437.4,244.313,256.571,425.146,75.738,244.313a96,96,0,0,1,0-135.764l6.911-6.91a96,96,0,0,1,135.713-.051l38.093,38.787,38.274-38.736a96,96,0,0,1,135.765,0l6.91,6.909A96.11,96.11,0,0,1,437.4,244.313Z"></path>
 					</svg>
@@ -62,14 +83,13 @@
 		<div class="flex flex-wrap items-center pt-3 pb-1">
 			<div class="flex items-center space-x-2">
 				<span class="text-sm">Liked by
-					<span class="font-semibold">86 person</span>
+					<span class="font-semibold">{{post.like.length}} person</span>
 				</span>
 			</div>
 		</div>
-		<div class="flex">
-			<span class="text-sm font-semibold">leroy_jenkins72
-				<span class="text-sm font-normal">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac nisl eu justo commodo varius. Suspendisse potenti. 
-					Fusce id volutpat ante, in cursus quam. Nullam id felis nec lectus venenatis accumsan. </span>
+		<div *ngIf="ifTherIsMedia(i)" class="flex">
+			<span class="text-sm font-semibold">{{post.user.firstName+' '+post.user.lastName}}
+				<span class="text-sm font-normal">{{post.content}} </span>
 			</span>
 		</div>
 		<div>

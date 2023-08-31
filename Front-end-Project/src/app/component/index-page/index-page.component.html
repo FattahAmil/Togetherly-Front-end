@@ -4,11 +4,11 @@
         <app-show-profile [userDetails]="userDetails"></app-show-profile>
     </div>
     <div class="lg:col-span-2 gap-4 flex flex-col">
-        <app-create-post *ngIf="checkRoleAdminTeacher()" [userDetails]="userDetails"></app-create-post>
-        <app-show-post></app-show-post>
+        <app-create-post *ngIf="checkRoleAdminTeacher()"  [userDetails]="userDetails"></app-create-post>
+        <app-show-post #childShowPost ></app-show-post>
     </div>
     <div class="gap-3 flex flex-col">
-        <app-show-latest-messages></app-show-latest-messages>
-        <app-show-followers></app-show-followers>
+        <app-show-latest-messages [userDetails]="userDetails"></app-show-latest-messages>
+        <app-show-followers ></app-show-followers>
     </div>
 </div>
