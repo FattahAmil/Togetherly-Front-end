@@ -65,16 +65,13 @@ export class CreatePostComponent implements OnInit{
 
 onCreate(){
   this.post.id=this.userDetails.body.id;
-  this.postService.createPost(this.post);
-  this.post.mediaList=[];
+  this.postService.createPost(this.post).subscribe(value=>{
+    this.post.mediaList=[];
   if (this.messageTextArea) {
   this.messageTextArea.value=' ';
-  }
- 
- 
+  } 
   this.communicationService.triggerFunction();
-  
-  
+  });
 }
 convertFile(file : File) : Observable<string> {
   const result = new ReplaySubject<string>(1);

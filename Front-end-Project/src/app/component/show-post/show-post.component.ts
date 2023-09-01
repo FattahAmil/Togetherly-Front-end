@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Sanitizer } from '@angular/core';
+import { Component, OnDestroy, OnInit, Sanitizer, inject } from '@angular/core';
 import { PostService } from "src/app/service/post.service";
 import { UserResponse } from 'src/app/model/UserResponse';
 import { UserService } from "src/app/service/user.service";
@@ -7,6 +7,9 @@ import { Subscription } from 'rxjs';
 import { CommunicationServiceService } from 'src/app/service/communication-service.service';
 import { PostReq } from 'src/app/model/PostReq';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { AuthenticationService } from 'src/app/service/authentication.service';
+import { DecodeJwt } from 'src/app/model/DecodeJwtToken';
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-show-post',
@@ -20,7 +23,9 @@ export class ShowPostComponent implements OnInit,OnDestroy {
   idUser:string='';
   posts: any;
   Post2!:[PostReq];
-  
+  isliked:boolean=false;
+  jwtToken:any=inject(AuthenticationService).getToken();
+  decodeJwt:DecodeJwt=jwt_decode(this.jwtToken);
 
   constructor(private postService:PostService,private userService:UserService,private communicationService: CommunicationServiceService,private sanitizer:DomSanitizer ){
     this.subscription = this.communicationService.triggerFunction$.subscribe(() => {
@@ -51,7 +56,26 @@ showPostUser(){
     this.postService.showPostAndUserDetails(this.idUser).subscribe(
       (response)=>{
         this.posts=response.body;
-        console.log(response);
+        this.posts.reverse();
+        
+        let i=0
+        this.posts.forEach((post: { like: any[]; }) => {
+          this.posts[i]['numberLikes']=this.posts[i].like.length;
+
+
+          //like onLoad
+          let userId=this.userDetails.body.id;
+          let index =post.like.findIndex((like) => like.users.id == userId);
+          if (index<0) {
+            this.posts[i]['isLiked']=false
+          }else{
+            this.posts[i]['isLiked']=true
+          }
+          i++;
+        });
+       
+        console.log(this.posts);
+        
       });
 }
 
@@ -91,12 +115,32 @@ timeGenerator(date:number){
       const months = Math.floor(timeDifferenceInSeconds / 2592000);
       return `${months} months ago`;
 }
-likePost(idPost:number){
-  
+likePost(idPost:number,i:number){
+  const like=document.getElementById("like-"+i);
+  console.log("like-"+i);
   this.postService.likePost(idPost,this.idUser).subscribe(
       (response)=>{
-        console.log(response);
+        
+        if (response.body) {
+          like?.classList.remove("text-white");
+          like?.classList.add("text-black");
+          this.posts[i]['numberLikes']++;
+          return;
+        }
+        like?.classList.remove("text-black");
+        like?.classList.add("text-white");
+        this.posts[i]['numberLikes']--;
         
       });
 }
+
+checkIsAdminOrisYourPosts(idUserPost:string){
+  return (this.decodeJwt.roles[0] =='ROLE_ADMIN' || this.userDetails.body.id == idUserPost);
+
+}
+
+
+
+
+
 }

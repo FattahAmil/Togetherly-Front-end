@@ -7,7 +7,7 @@
 				<span class="inline-block text-xs leadi dark:text-gray-400">{{timeGenerator(post.created_at)}}</span>
 			</div>
 		</div>
-		<button title="Open options" type="button">
+		<button *ngIf="checkIsAdminOrisYourPosts(post.user.id)" title="Open options" type="button">
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-5 h-5 fill-current">
 				<path d="M256,144a64,64,0,1,0-64-64A64.072,64.072,0,0,0,256,144Zm0-96a32,32,0,1,1-32,32A32.036,32.036,0,0,1,256,48Z"></path>
 				<path d="M256,368a64,64,0,1,0,64,64A64.072,64.072,0,0,0,256,368Zm0,96a32,32,0,1,1,32-32A32.036,32.036,0,0,1,256,464Z"></path>
@@ -68,10 +68,10 @@
 	<div class="p-3">
 		<div class="flex items-center justify-between">
 			<div class="flex items-center space-x-3">
-				<button type="button" (click)="likePost(post.id)" title="Like post" class="flex items-center justify-center">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-5 h-5 fill-current">
-						<path d="M453.122,79.012a128,128,0,0,0-181.087.068l-15.511,15.7L241.142,79.114l-.1-.1a128,128,0,0,0-181.02,0l-6.91,6.91a128,128,0,0,0,0,181.019L235.485,449.314l20.595,21.578.491-.492.533.533L276.4,450.574,460.032,266.94a128.147,128.147,0,0,0,0-181.019ZM437.4,244.313,256.571,425.146,75.738,244.313a96,96,0,0,1,0-135.764l6.911-6.91a96,96,0,0,1,135.713-.051l38.093,38.787,38.274-38.736a96,96,0,0,1,135.765,0l6.91,6.909A96.11,96.11,0,0,1,437.4,244.313Z"></path>
-					</svg>
+				<button type="button" (click)="likePost(post.id,i)" [id]="'like-'+i" title="Like post" [ngClass]="{'text-black': post.isLiked,'text-white': !post.isLiked}" class="flex items-center justify-center">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5"  fill="currentColor" stroke="black"  class="w-5  h-5">
+						<path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+					</svg>									
 				</button>
 				<button type="button" title="Add a comment" class="flex items-center justify-center">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-5 h-5 fill-current">
@@ -83,7 +83,7 @@
 		<div class="flex flex-wrap items-center pt-3 pb-1">
 			<div class="flex items-center space-x-2">
 				<span class="text-sm">Liked by
-					<span class="font-semibold">{{post.like.length}} person</span>
+					<span class="font-semibold">{{post.numberLikes}} person</span>
 				</span>
 			</div>
 		</div>

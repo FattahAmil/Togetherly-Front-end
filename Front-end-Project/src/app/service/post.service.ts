@@ -28,18 +28,9 @@ export class PostService {
     }
     return this.http.post<any>(`${this.url}/like`, like,{headers:this.headers})
   }
-  createPost(post: object): void {
+  createPost(post: object):Observable<any> {
     console.log(post);
-    this.http.post<any>(`${this.url}/create`, post,{headers:this.headers})
-      .subscribe(
-        response => {
-          // Handle the response here
-          console.log('Request was successful:', response);
-        },
-        error => {
-          // Handle the error here
-          console.error('An error occurred:', error);
-        }
-      );
+   return this.http.post<any>(`${this.url}/create`, post,{headers:this.headers})
+      
   }
 }
