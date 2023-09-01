@@ -6,7 +6,6 @@ import { FollowReq } from 'src/app/model/FollowReq';
 import { Subscription } from 'rxjs';
 import { CommunicationServiceService } from 'src/app/service/communication-service.service';
 import { PostReq } from 'src/app/model/PostReq';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { DecodeJwt } from 'src/app/model/DecodeJwtToken';
 import jwt_decode from 'jwt-decode';
@@ -27,7 +26,7 @@ export class ShowPostComponent implements OnInit,OnDestroy {
   jwtToken:any=inject(AuthenticationService).getToken();
   decodeJwt:DecodeJwt=jwt_decode(this.jwtToken);
 
-  constructor(private postService:PostService,private userService:UserService,private communicationService: CommunicationServiceService,private sanitizer:DomSanitizer ){
+  constructor(private postService:PostService,private userService:UserService,private communicationService: CommunicationServiceService){
     this.subscription = this.communicationService.triggerFunction$.subscribe(() => {
       this.getUserDetails();
     });
@@ -125,11 +124,13 @@ likePost(idPost:number,i:number){
           like?.classList.remove("text-white");
           like?.classList.add("text-black");
           this.posts[i]['numberLikes']++;
+          this.communicationService.triggerFunction();
           return;
         }
         like?.classList.remove("text-black");
         like?.classList.add("text-white");
         this.posts[i]['numberLikes']--;
+        this.communicationService.triggerFunction();
         
       });
 }
@@ -139,7 +140,33 @@ checkIsAdminOrisYourPosts(idUserPost:string){
 
 }
 
+dropDownMenue(id:number){
+  const menu=document.getElementById("dropdownDots"+id);
+  if(menu?.classList.contains('hidden')){
+    menu?.classList.remove('hidden')
+    return;
+  }
+  menu?.classList.add('hidden');
+}
+dropDownMenueConfirm(id:number){
+  const menu=document.getElementById("dropdownConfirm"+id);
+  if(menu?.classList.contains('hidden')){
+    menu?.classList.remove('hidden')
+    menu?.classList.add('flex')
+    return;
+  }
+  menu?.classList.remove('flex')
+  menu?.classList.add('hidden');
+}
 
+
+deletePost(id:number){
+  this.postService.deletePost(id).subscribe((response)=>{
+    console.log(response)
+    this.showPostUser();
+
+  });
+}
 
 
 

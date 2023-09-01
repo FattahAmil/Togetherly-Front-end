@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FollowReq } from 'src/app/model/FollowReq';
 import { User } from 'src/app/model/User';
 import { UserResponse } from 'src/app/model/UserResponse';
+import { CommunicationServiceService } from 'src/app/service/communication-service.service';
 import { UserService } from "src/app/service/user.service";
 
 @Component({
@@ -14,7 +15,7 @@ export class ShowFollowersComponent implements OnInit {
   userDetails:UserResponse=new UserResponse()
   followReq:FollowReq=new FollowReq() ;
   users: any;
-  constructor(private userService:UserService){
+  constructor(private userService:UserService,private communicationService: CommunicationServiceService){
   }
   ngOnInit(): void {
     
@@ -38,6 +39,7 @@ export class ShowFollowersComponent implements OnInit {
     this.userService.followReq(this.followReq).subscribe(
       (response)=>{
         console.log(response);
+        this.communicationService.triggerFunction();
         this.getUnFollowedPerson()
       }
     );

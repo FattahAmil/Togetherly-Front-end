@@ -31,6 +31,11 @@ export class PostService {
   createPost(post: object):Observable<any> {
     console.log(post);
    return this.http.post<any>(`${this.url}/create`, post,{headers:this.headers})
-      
+  }
+  deletePost(idPost:number):Observable<any>{
+    const post={
+      idPost: idPost
+    }
+    return this.http.post<any>(`${this.url}/delete`, post,{headers:this.headers})
   }
 }

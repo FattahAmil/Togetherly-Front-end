@@ -37,4 +37,11 @@ export class UserService {
     return  this.http.get(`${this.url}/notFollowed/${id}`);
   }
   
+  getNumbersOfLikesFollowersFollowing(idUser:String):Observable<any>{
+    const user={
+      idUser:idUser
+    }
+    return  this.http.post(`${this.url}/getNumbers`,user);
+  }
+
 }

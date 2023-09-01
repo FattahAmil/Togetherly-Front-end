@@ -1,5 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { UserResponse } from 'src/app/model/UserResponse';
+import { CommunicationServiceService } from 'src/app/service/communication-service.service';
 import { UserService } from "src/app/service/user.service";
 
 
@@ -8,10 +10,43 @@ import { UserService } from "src/app/service/user.service";
   templateUrl: './show-profile.component.html',
   styleUrls: ['./show-profile.component.css']
 })
-export class ShowProfileComponent {
- @Input()
+export class ShowProfileComponent implements OnInit,OnDestroy {
+  private subscription: Subscription;
   userDetails: UserResponse = new UserResponse;
+  likes:number=0;
+  followers:number=0;
+  following:number=0;
+constructor(private userService:UserService,private communicationService: CommunicationServiceService){
+  this.subscription = this.communicationService.triggerFunction$.subscribe(() => {
+    this.getUserDetails();
+  });
+}
+ngOnDestroy(): void {
+  this.subscription.unsubscribe();
+}
+  ngOnInit(): void {
+    this.getUserDetails();
+  }
+  getUserDetails(){
+    this.userService.getUserToken().subscribe(
+      (userData) => {
+        this.userDetails = userData ;
+        this.getNumbersOfLikesFollowersFollowing()
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
 
- 
+  getNumbersOfLikesFollowersFollowing(){
+    const id=this.userDetails.body.id;
+    this.userService.getNumbersOfLikesFollowersFollowing(id).subscribe((response)=>{
+        this.likes=response.body.numberOfLikes;
+        this.followers=response.body.numberOfFollowers;
+        this.following=response.body.numberOfFollowing;
+        console.log(response);
+    });
+  }
 
 }

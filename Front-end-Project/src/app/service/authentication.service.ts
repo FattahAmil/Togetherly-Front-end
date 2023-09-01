@@ -25,6 +25,7 @@ export class AuthenticationService {
         const data = response as Response;
         console.log(data.body.access_token)
         sessionStorage.setItem('auth_token', data.body.access_token);
+
       }),
       catchError(error => {
         // Handle login error here
@@ -42,6 +43,7 @@ export class AuthenticationService {
   }
 
   getToken(): string | null {
+    
     return sessionStorage.getItem('auth_token');
   }
 
