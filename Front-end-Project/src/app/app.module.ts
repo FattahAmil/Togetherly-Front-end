@@ -14,6 +14,8 @@ import { ShowPostComponent } from './component/show-post/show-post.component';
 import { ShowFollowersComponent } from './component/show-followers/show-followers.component';
 import { ShowProfileComponent } from './component/show-profile/show-profile.component';
 import { ShowLatestMessagesComponent } from './component/show-latest-messages/show-latest-messages.component';
+import { PostPageComponent } from './component/post-page/post-page.component';
+import { ProfilePageComponent } from './component/profile-page/profile-page.component';
 
 
 @NgModule({
@@ -27,7 +29,9 @@ import { ShowLatestMessagesComponent } from './component/show-latest-messages/sh
     ShowPostComponent,
     ShowFollowersComponent,
     ShowProfileComponent,
-    ShowLatestMessagesComponent
+    ShowLatestMessagesComponent,
+    PostPageComponent,
+    ProfilePageComponent
   ],
   imports: [
     BrowserModule,

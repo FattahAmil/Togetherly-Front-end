@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserResponse } from 'src/app/model/UserResponse';
 import { CommunicationServiceService } from 'src/app/service/communication-service.service';
@@ -16,7 +17,7 @@ export class ShowProfileComponent implements OnInit,OnDestroy {
   likes:number=0;
   followers:number=0;
   following:number=0;
-constructor(private userService:UserService,private communicationService: CommunicationServiceService){
+constructor(private userService:UserService,private communicationService: CommunicationServiceService,private router: Router){
   this.subscription = this.communicationService.triggerFunction$.subscribe(() => {
     this.getUserDetails();
   });
@@ -38,7 +39,9 @@ ngOnDestroy(): void {
       }
     );
   }
-
+  navigateToPostPage() {
+    this.router.navigate(['/profile', this.userDetails.body.email]);
+  }
   getNumbersOfLikesFollowersFollowing(){
     const id=this.userDetails.body.id;
     this.userService.getNumbersOfLikesFollowersFollowing(id).subscribe((response)=>{

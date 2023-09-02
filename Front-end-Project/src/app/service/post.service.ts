@@ -38,4 +38,11 @@ export class PostService {
     }
     return this.http.post<any>(`${this.url}/delete`, post,{headers:this.headers})
   }
+  postById(idPost:number):Observable<any>{
+    const post={
+      idPost: idPost
+    }
+    return this.http.post<any>(`${this.url}/PostById`, post,{headers:this.headers})
+  }
+
 }

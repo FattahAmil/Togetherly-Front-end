@@ -9,6 +9,7 @@ import { PostReq } from 'src/app/model/PostReq';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { DecodeJwt } from 'src/app/model/DecodeJwtToken';
 import jwt_decode from 'jwt-decode';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-show-post',
@@ -26,7 +27,7 @@ export class ShowPostComponent implements OnInit,OnDestroy {
   jwtToken:any=inject(AuthenticationService).getToken();
   decodeJwt:DecodeJwt=jwt_decode(this.jwtToken);
 
-  constructor(private postService:PostService,private userService:UserService,private communicationService: CommunicationServiceService){
+  constructor(private postService:PostService,private userService:UserService,private communicationService: CommunicationServiceService,private router: Router){
     this.subscription = this.communicationService.triggerFunction$.subscribe(() => {
       this.getUserDetails();
     });
@@ -124,13 +125,13 @@ likePost(idPost:number,i:number){
           like?.classList.remove("text-white");
           like?.classList.add("text-black");
           this.posts[i]['numberLikes']++;
-          this.communicationService.triggerFunction();
+         
           return;
         }
         like?.classList.remove("text-black");
         like?.classList.add("text-white");
         this.posts[i]['numberLikes']--;
-        this.communicationService.triggerFunction();
+        
         
       });
 }
@@ -166,6 +167,13 @@ deletePost(id:number){
     this.showPostUser();
 
   });
+}
+
+navigateToPostPage(postId: number) {
+  this.router.navigate(['/post', postId]);
+}
+navigateToProfilePage(email: string) {
+  this.router.navigate(['/profile', email]);
 }
 
 

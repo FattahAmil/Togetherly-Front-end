@@ -1,9 +1,9 @@
 <div *ngFor="let post of posts;let i=index;" class="bg-white mb-4 border border-gray-200 rounded-lg shadow  dark:bg-gray-800 dark:border-gray-700">
 	<div class="flex items-center justify-between p-3">
 		<div class="flex items-center space-x-2">
-			<img [src]="post.user.profileImage" alt="" class="object-cover mx-2 object-center w-8 h-8 rounded-full shadow-sm dark:bg-gray-500 dark:border-gray-700">
+			<img [src]="post.user.profileImage" alt="" (click)="navigateToProfilePage(post.user.email)" class="object-cover mx-2 cursor-pointer object-center w-8 h-8 rounded-full shadow-sm dark:bg-gray-500 dark:border-gray-700">
 			<div class="-space-y-1">
-				<h2 class="text-sm font-semibold leadi">{{post.user.firstName+' '+post.user.lastName}}</h2>
+				<h2 (click)="navigateToProfilePage(post.user.email)" class="text-sm cursor-pointer font-semibold leadi">{{post.user.firstName+' '+post.user.lastName}}</h2>
 				<span class="inline-block text-xs leadi dark:text-gray-400">{{timeGenerator(post.created_at)}}</span>
 			</div>
 		</div>
@@ -35,12 +35,12 @@
 				</div>
 			</div>
 	<div class="flex flex-col items-center">
-		<div *ngIf="!ifTherIsMedia(i)" class=" flex rounded-lg shadow-lg w-11/12 h-[100px] ">
+		<div *ngIf="!ifTherIsMedia(i)" (click)="navigateToPostPage(post.id)" class=" cursor-pointer flex rounded-lg shadow-lg w-11/12 h-[100px] ">
 			<h5 class="m-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{post.content}}</h5>
 
 		</div>
 	</div>
-	<div *ngIf="ifTherIsMedia(i)" class="flex gap-2">
+	<div *ngIf="ifTherIsMedia(i)" (click)="navigateToPostPage(post.id)" class="flex cursor-pointer gap-2">
         <div *ngFor="let Media of post.mediaList;let i=index;">
             <img *ngIf="isImage(Media.fileType)" class="max-h-[400px] max-w-full rounded-lg hover:opacity-70 transition-opacity duration-300" [src]="pathGen(Media.mediaData)"   alt="">
 			<video *ngIf="isVideo(Media.fileType)" class="max-h-[400px] max-w-full rounded-lg hover:opacity-70 transition-opacity duration-300" controls>
@@ -92,7 +92,7 @@
 						<path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
 					</svg>									
 				</button>
-				<button type="button" title="Add a comment" class="flex items-center justify-center">
+				<button type="button" (click)="navigateToPostPage(post.id)" title="Add a comment" class="flex items-center justify-center">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-5 h-5 fill-current">
 						<path d="M496,496H480a273.39,273.39,0,0,1-179.025-66.782l-16.827-14.584C274.814,415.542,265.376,416,256,416c-63.527,0-123.385-20.431-168.548-57.529C41.375,320.623,16,270.025,16,216S41.375,111.377,87.452,73.529C132.615,36.431,192.473,16,256,16S379.385,36.431,424.548,73.529C470.625,111.377,496,161.975,496,216a171.161,171.161,0,0,1-21.077,82.151,201.505,201.505,0,0,1-47.065,57.537,285.22,285.22,0,0,0,63.455,97L496,457.373ZM294.456,381.222l27.477,23.814a241.379,241.379,0,0,0,135,57.86,317.5,317.5,0,0,1-62.617-105.583v0l-4.395-12.463,9.209-7.068C440.963,305.678,464,262.429,464,216c0-92.636-93.309-168-208-168S48,123.364,48,216s93.309,168,208,168a259.114,259.114,0,0,0,31.4-1.913Z"></path>
 					</svg>
@@ -107,18 +107,18 @@
 			</div>
 		</div>
 		<div *ngIf="ifTherIsMedia(i)" class="flex">
-			<span class="text-sm font-semibold">{{post.user.firstName+' '+post.user.lastName}}
-				<span class="text-sm font-normal">{{post.content}} </span>
+			<span (click)="navigateToProfilePage(post.user.email)" class=" cursor-pointer text-sm font-semibold">{{post.user.firstName+' '+post.user.lastName}}
+				<span (click)="navigateToPostPage(post.id)" class="text-sm cursor-pointer font-normal">{{post.content}} </span>
 			</span>
 		</div>
 		<div>
-			<span class="text-xs cursor-pointer font-normal text-gray-400">View All {{post.comment.length}} Comments</span>
+			<span (click)="navigateToPostPage(post.id)" class="text-xs cursor-pointer font-normal text-gray-400">View All {{post.comment.length}} Comments</span>
 		</div>
 		<div *ngFor="let comment of post.comment" class="space-y-3  mt-4 p-2">
 			<div class="flex">
-				<img [src]="comment.users.profileImage" alt="" class="object-cover mx-2 object-center w-8 h-8 rounded-full shadow-sm dark:bg-gray-500 dark:border-gray-700">
-				<span class="text-sm font-semibold">{{comment.users.firstName+' '+comment.users.lastName}}
-					<span class="text-sm font-normal">{{comment.content}}</span>
+				<img (click)="navigateToProfilePage(comment.user.email)" [src]="comment.users.profileImage" alt="" class="object-cover cursor-pointer mx-2 object-center w-8 h-8 rounded-full shadow-sm dark:bg-gray-500 dark:border-gray-700">
+				<span (click)="navigateToProfilePage(post.user.email)" class="text-sm cursor-pointer font-semibold">{{comment.users.firstName+' '+comment.users.lastName}}
+					<span (click)="navigateToPostPage(post.id)" class="text-sm cursor-pointer font-normal">{{comment.content}}</span>
 				</span>
 				
 			</div>
