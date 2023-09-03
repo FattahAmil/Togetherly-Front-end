@@ -38,8 +38,12 @@ export class PostPageComponent implements OnInit {
     
     
   }
-  checkIsAdminOrisYourPosts(idUserPost:string){
+  checkIsAdminOrIsYourPosts(idUserPost:string){
     return (this.decodeJwt.roles[0] =='ROLE_ADMIN' || this.userDetails.body.id == idUserPost);
+  
+  }
+  checkIsAdminOrIsYourPostsOrIsYourComment(idUserPost:string,idUserComment:string){
+    return (this.decodeJwt.roles[0] =='ROLE_ADMIN' || this.userDetails.body.id == idUserPost||this.userDetails.body.id==idUserComment);
   
   }
 
@@ -63,6 +67,7 @@ export class PostPageComponent implements OnInit {
       this.post=response.body;
       this.user=this.post.user;
       this.post['numberLikes']=this.post.like.length;
+      this.post['numberComments']=this.post.comment.length;
       //like onLoad
       let userId=this.userDetails.body.id;
       let index =this.post.like.findIndex((like: { users: { id: string; }; }) => like.users.id == userId);
@@ -123,12 +128,12 @@ export class PostPageComponent implements OnInit {
            
            if (response.body) {
              like?.classList.remove("text-white");
-             like?.classList.add("text-black");
+             like?.classList.add("text-red-600");
              this.post['numberLikes']++;
              
              return;
            }
-           like?.classList.remove("text-black");
+           like?.classList.remove("text-red-600");
            like?.classList.add("text-white");
            this.post['numberLikes']--;
            
@@ -161,6 +166,17 @@ deletePost(id:number){
     this.router.navigate(["/index"]);
 
   });
+}
+contentOfComment:string='';
+createComment(){
+    if (this.contentOfComment=='') {
+      return;
+    }
+  this.postService.createComment(this.post.id,this.userDetails.body.id,this.contentOfComment).subscribe((response)=>{
+      console.log(response)
+      this.contentOfComment='';
+      this.PostById();
+  })
 }
 
 navigateToPostPage(postId: number) {

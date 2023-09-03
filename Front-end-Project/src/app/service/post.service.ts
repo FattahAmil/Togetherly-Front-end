@@ -44,5 +44,14 @@ export class PostService {
     }
     return this.http.post<any>(`${this.url}/PostById`, post,{headers:this.headers})
   }
+  createComment(idPost:number,idUser:string,content:string):Observable<any>{
+    const comment={
+      idUser :idUser ,
+      idPost :idPost ,
+      content :content
+    }
+    
+    return this.http.post<any>(`${this.url}/comment`, comment,{headers:this.headers})
+  }
 
 }

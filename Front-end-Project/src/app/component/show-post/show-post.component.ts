@@ -58,10 +58,11 @@ showPostUser(){
         this.posts=response.body;
         this.posts.reverse();
         
+        
         let i=0
         this.posts.forEach((post: { like: any[]; }) => {
           this.posts[i]['numberLikes']=this.posts[i].like.length;
-
+          this.posts[i].comment.reverse();
 
           //like onLoad
           let userId=this.userDetails.body.id;
@@ -123,15 +124,15 @@ likePost(idPost:number,i:number){
         
         if (response.body) {
           like?.classList.remove("text-white");
-          like?.classList.add("text-black");
+          like?.classList.add("text-red-600");
           this.posts[i]['numberLikes']++;
-         
+          this.communicationService.triggerFunction2();
           return;
         }
-        like?.classList.remove("text-black");
+        like?.classList.remove("text-red-600");
         like?.classList.add("text-white");
         this.posts[i]['numberLikes']--;
-        
+        this.communicationService.triggerFunction2();
         
       });
 }

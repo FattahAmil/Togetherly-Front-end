@@ -39,6 +39,7 @@ export class ShowFollowersComponent implements OnInit {
     this.userService.followReq(this.followReq).subscribe(
       (response)=>{
         console.log(response);
+        this.communicationService.triggerFunction2();
         this.communicationService.triggerFunction();
         this.getUnFollowedPerson()
       }

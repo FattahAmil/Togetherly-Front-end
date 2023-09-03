@@ -18,7 +18,7 @@ export class ShowProfileComponent implements OnInit,OnDestroy {
   followers:number=0;
   following:number=0;
 constructor(private userService:UserService,private communicationService: CommunicationServiceService,private router: Router){
-  this.subscription = this.communicationService.triggerFunction$.subscribe(() => {
+  this.subscription = this.communicationService.triggerFunction2$.subscribe(() => {
     this.getUserDetails();
   });
 }
