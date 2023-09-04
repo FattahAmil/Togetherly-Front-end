@@ -35,7 +35,7 @@
                 </div>
             </div>
             
-                <div *ngIf="!ifTherIsMedia()" class=" flex bg-gray-100 rounded-lg shadow-lg w-11/12 h-[100px] ">
+                <div *ngIf="!ifTherIsMedia()" draggable="true" class=" flex mt-2 bg-gray-100 rounded-lg shadow-lg w-11/12 h-[100px] ">
                     <h5 class="m-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{post.content}}</h5>
                 </div>
            
@@ -43,8 +43,8 @@
         <div class="min-w-[300px] h-full">
             <div class="flex justify-between h-[60px] w-full items-center border-b">
                 <div class="flex items-center">
-                    <img [src]="post.user.profileImage" alt=""  class="object-cover mx-2 cursor-pointer object-center w-8 h-8 rounded-full shadow-sm dark:bg-gray-500 dark:border-gray-700">
-                    <div class="-space-y-1">
+                    <img (click)="navigateToProfilePage(post.user.email)" [src]="post.user.profileImage" alt=""  class="object-cover mx-2 cursor-pointer object-center w-8 h-8 rounded-full shadow-sm dark:bg-gray-500 dark:border-gray-700">
+                    <div (click)="navigateToProfilePage(post.user.email)" class="-space-y-1">
                         <h2 class="text-sm cursor-pointer font-semibold leadi">{{post.user.firstName+' '+post.user.lastName}}</h2>
                         <span class="inline-block text-xs leadi dark:text-gray-400">{{timeGenerator(post.created_at)}}</span>
                     </div>
@@ -56,7 +56,7 @@
                 </button>
                 </div>  
                   <!-- Dropdown menu -->
-                      <div class="flex justify-end">
+                    <div class="flex justify-end">
                         <div [ngClass]="{'hidden': isHidden,'': !isHidden}"   class="z-10 hidden absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                             <ul class="py-2 text-sm text-red-700 dark:text-red-600" aria-labelledby="dropdownMenuIconButton">
                                 <li>
@@ -72,8 +72,8 @@
             <div class="h-[288px] overflow-hidden overflow-y-scroll">
                 <div class="space-y-3  mt-4 p-2">
                     <div class="flex">
-                        <img [src]="post.user.profileImage" alt="" class="object-cover cursor-pointer mx-2 object-center w-8 h-8 rounded-full shadow-sm dark:bg-gray-500 dark:border-gray-700">
-                        <span  class="text-sm cursor-pointer font-semibold">{{post.user.firstName+' '+post.user.lastName}}
+                        <img (click)="navigateToProfilePage(post.user.email)" [src]="post.user.profileImage" alt="" class="object-cover cursor-pointer mx-2 object-center w-8 h-8 rounded-full shadow-sm dark:bg-gray-500 dark:border-gray-700">
+                        <span (click)="navigateToProfilePage(post.user.email)" class="text-sm cursor-pointer font-semibold">{{post.user.firstName+' '+post.user.lastName}}
                             <span  class="text-sm cursor-pointer font-normal">{{post.content}}</span>
                         </span>
                     </div>
@@ -83,7 +83,7 @@
                     <div class="flex justify-between">
                         <div class="flex">
                         <img (click)="navigateToProfilePage(comment.users.email)" [src]="comment.users.profileImage" alt="" class="object-cover cursor-pointer mx-2 object-center w-8 h-8 rounded-full shadow-sm dark:bg-gray-500 dark:border-gray-700">
-                        <span (click)="navigateToProfilePage(post.user.email)" class="text-sm cursor-pointer font-semibold">{{comment.users.firstName+' '+comment.users.lastName}}
+                        <span (click)="navigateToProfilePage(comment.user.email)" class="text-sm cursor-pointer font-semibold">{{comment.users.firstName+' '+comment.users.lastName}}
                             <span (click)="navigateToPostPage(post.id)" class="text-sm cursor-pointer font-normal">{{comment.content}}</span>
                         </span>
                         </div>

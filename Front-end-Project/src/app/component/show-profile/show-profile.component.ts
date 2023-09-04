@@ -39,8 +39,8 @@ ngOnDestroy(): void {
       }
     );
   }
-  navigateToPostPage() {
-    this.router.navigate(['/profile', this.userDetails.body.email]);
+  navigateToProfilePage() {
+    this.router.navigate(['/profile', this.userDetails.body.id]);
   }
   getNumbersOfLikesFollowersFollowing(){
     const id=this.userDetails.body.id;

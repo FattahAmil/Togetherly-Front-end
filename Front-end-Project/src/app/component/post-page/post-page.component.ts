@@ -78,7 +78,7 @@ export class PostPageComponent implements OnInit {
       }
       setTimeout(()=>{
         this.isLoading=true
-      },200);
+      });
       
       console.log(this.post)
     });

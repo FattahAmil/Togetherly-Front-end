@@ -1,7 +1,7 @@
 <div *ngFor="let post of posts;let i=index;" class="bg-white mb-4 border border-gray-200 rounded-lg shadow  dark:bg-gray-800 dark:border-gray-700">
 	<div class="flex items-center justify-between p-3">
 		<div class="flex items-center space-x-2">
-			<img [src]="post.user.profileImage" alt="" (click)="navigateToProfilePage(post.user.email)" class="object-cover mx-2 cursor-pointer object-center w-8 h-8 rounded-full shadow-sm dark:bg-gray-500 dark:border-gray-700">
+			<img [src]="post.user.profileImage" alt="" (click)="navigateToProfilePage(post.user.id)" class="object-cover mx-2 cursor-pointer object-center w-8 h-8 rounded-full shadow-sm dark:bg-gray-500 dark:border-gray-700">
 			<div class="-space-y-1">
 				<h2 (click)="navigateToProfilePage(post.user.email)" class="text-sm cursor-pointer font-semibold leadi">{{post.user.firstName+' '+post.user.lastName}}</h2>
 				<span class="inline-block text-xs leadi dark:text-gray-400">{{timeGenerator(post.created_at)}}</span>

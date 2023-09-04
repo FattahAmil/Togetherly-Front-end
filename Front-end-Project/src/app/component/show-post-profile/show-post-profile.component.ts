@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Sanitizer, inject } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Sanitizer, inject } from '@angular/core';
 import { PostService } from "src/app/service/post.service";
 import { UserResponse } from 'src/app/model/UserResponse';
 import { UserService } from "src/app/service/user.service";
@@ -12,11 +12,14 @@ import jwt_decode from 'jwt-decode';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-show-post',
-  templateUrl: './show-post.component.html',
-  styleUrls: ['./show-post.component.css']
+  selector: 'app-show-post-profile',
+  templateUrl: './show-post-profile.component.html',
+  styleUrls: ['./show-post-profile.component.css']
 })
-export class ShowPostComponent implements OnInit,OnDestroy {
+export class ShowPostProfileComponent implements OnInit,OnDestroy {
+  @Input()
+  idUserPost!:string;
+
   private subscription: Subscription;
   userDetails:UserResponse=new UserResponse()
   followReq:FollowReq=new FollowReq() ;
@@ -37,7 +40,9 @@ export class ShowPostComponent implements OnInit,OnDestroy {
   }
   
   ngOnInit() {  
+
     this.getUserDetails();
+    
   }
 
   getUserDetails(){
@@ -52,8 +57,8 @@ export class ShowPostComponent implements OnInit,OnDestroy {
     );
   }
 showPostUser(){
-     this.idUser =this.userDetails.body.id;
-    this.postService.showPostAndUserDetails(this.idUser).subscribe(
+     console.log(this.idUserPost);
+    this.postService.showPostAndUserDetails(this.idUserPost).subscribe(
       (response)=>{
         this.posts=response.body;
         this.posts.reverse();
@@ -119,20 +124,20 @@ timeGenerator(date:number){
 likePost(idPost:number,i:number){
   const like=document.getElementById("like-"+i);
   console.log("like-"+i);
-  this.postService.likePost(idPost,this.idUser).subscribe(
+  this.postService.likePost(idPost,this.userDetails.body.id).subscribe(
       (response)=>{
         
         if (response.body) {
           like?.classList.remove("text-white");
           like?.classList.add("text-red-600");
           this.posts[i]['numberLikes']++;
-          this.communicationService.triggerFunction2();
+          this.communicationService.triggerFunction3();
           return;
         }
         like?.classList.remove("text-red-600");
         like?.classList.add("text-white");
         this.posts[i]['numberLikes']--;
-        this.communicationService.triggerFunction2();
+        this.communicationService.triggerFunction3();
         
       });
 }
@@ -173,8 +178,11 @@ deletePost(id:number){
 navigateToPostPage(postId: number) {
   this.router.navigate(['/post', postId]);
 }
+
 navigateToProfilePage(emailProfile:string) {
-  this.router.navigate(['/profile', emailProfile]);
+  this.router.navigate(['/profile', emailProfile]).then(()=>{
+    location.reload()
+  });
 }
 
 

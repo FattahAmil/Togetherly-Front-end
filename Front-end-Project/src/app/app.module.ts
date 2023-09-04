@@ -16,6 +16,7 @@ import { ShowProfileComponent } from './component/show-profile/show-profile.comp
 import { ShowLatestMessagesComponent } from './component/show-latest-messages/show-latest-messages.component';
 import { PostPageComponent } from './component/post-page/post-page.component';
 import { ProfilePageComponent } from './component/profile-page/profile-page.component';
+import { ShowPostProfileComponent } from './component/show-post-profile/show-post-profile.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { ProfilePageComponent } from './component/profile-page/profile-page.comp
     ShowProfileComponent,
     ShowLatestMessagesComponent,
     PostPageComponent,
-    ProfilePageComponent
+    ProfilePageComponent,
+    ShowPostProfileComponent
   ],
   imports: [
     BrowserModule,

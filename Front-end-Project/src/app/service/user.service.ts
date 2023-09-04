@@ -32,6 +32,9 @@ export class UserService {
   followReq(followReq:FollowReq):Observable<any>{
     return this.http.post(`${this.url}/follow`,followReq);
   }
+  getUserByEmail(email:string): Observable<any>{
+    return this.http.get<any>(`${this.url}/email/` + email)
+  }
 
   getUserNotFollwed(id:String):Observable<any>{
     return  this.http.get(`${this.url}/notFollowed/${id}`);
@@ -41,7 +44,12 @@ export class UserService {
     const user={
       idUser:idUser
     }
+
     return  this.http.post(`${this.url}/getNumbers`,user);
+  }
+
+  getUserFriends(id:String):Observable<any>{
+    return  this.http.get(`${this.url}/getFriends/${id}`);
   }
 
 }

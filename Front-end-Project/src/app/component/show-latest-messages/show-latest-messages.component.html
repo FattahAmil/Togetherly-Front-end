@@ -7,17 +7,17 @@
     </div>
     <div class="flow-root">
         <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">      
-            <li class="pt-3 pb-0 sm:pt-4">
+            <li *ngFor="let user of usersFriends" class="pt-3 pb-0 sm:pt-4">
                 <div class="flex items-center space-x-4">
                     <div class="flex-shrink-0">
-                        <img class="w-8 h-8 rounded-full" src="https://source.unsplash.com/50x50/?portrait" alt="Thomas image">
+                        <img (click)="navigateToProfilePage(user.email)" class="w-8 h-8 cursor-pointer rounded-full" [src]="user.profileImage" alt="Thomas image">
                     </div>
-                    <div class="flex-1 min-w-0">
+                    <div (click)="navigateToProfilePage(user.email)" class=" cursor-pointer flex-1 min-w-0">
                         <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                            Thomes Lean
+                            {{user.firstName+' '+user.lastName}}
                         </p>
                         <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                            email@windster.com
+                            {{user.email}}
                         </p>
                     </div>
                     <button class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
@@ -27,6 +27,7 @@
                     </button>
                 </div>
             </li>
+           
         </ul>
     </div>
 </div>
