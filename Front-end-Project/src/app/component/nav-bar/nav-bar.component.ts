@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { UserResponse } from 'src/app/model/UserResponse';
 import { AuthenticationService } from 'src/app/service/authentication.service';
+import { WebSocketService } from 'src/app/service/web-socket.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -10,8 +11,9 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
 export class NavBarComponent {
   @Input()
   userDetails: UserResponse = new UserResponse;
+  isHiddenNotif=true;
   isHidden=true;
-  constructor(private authenticationService:AuthenticationService){
+  constructor(private authenticationService:AuthenticationService,private webSocketService:WebSocketService){
 
   }
   dropDownMenue(){
@@ -23,8 +25,18 @@ export class NavBarComponent {
     this.isHidden=true;
    
   }
+  dropDownMenueNotif(){
+    if (this.isHiddenNotif==true) {
+      this.isHiddenNotif=false;
+      return;
+    }
+    
+    this.isHiddenNotif=true;
+   
+  }
 
   logout(){
-    this.authenticationService.logout()
+    this.authenticationService.logout();
+    this.webSocketService.disconnect();
   }
 }

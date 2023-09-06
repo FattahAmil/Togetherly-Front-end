@@ -4,13 +4,14 @@ import { UserResponse } from 'src/app/model/UserResponse';
 import { DecodeJwt } from 'src/app/model/DecodeJwtToken';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import jwt_decode from 'jwt-decode';
+import { WebSocketService } from 'src/app/service/web-socket.service';
 @Component({
   selector: 'app-index-page',
   templateUrl: './index-page.component.html',
   styleUrls: ['./index-page.component.css']
 })
 export class IndexPageComponent implements OnInit {
-  constructor(private userServ:UserService) {
+  constructor(private userServ:UserService,private webSocketService:WebSocketService) {
   }
   jwtToken:any=inject(AuthenticationService).getToken();
   decodeJwt:DecodeJwt=jwt_decode(this.jwtToken);
@@ -19,9 +20,11 @@ export class IndexPageComponent implements OnInit {
   userEmail!:string;
   userImage!:string;
   ngOnInit() {
-    this.getUserDetails()
+    this.getUserDetails();
+   
     
   }
+ 
   checkRoleAdminTeacher(){
     return (this.decodeJwt.roles[0] =='ROLE_ADMIN' || this.decodeJwt.roles[0] == 'ROLE_TEACHER');
   }

@@ -17,6 +17,7 @@ import { ShowLatestMessagesComponent } from './component/show-latest-messages/sh
 import { PostPageComponent } from './component/post-page/post-page.component';
 import { ProfilePageComponent } from './component/profile-page/profile-page.component';
 import { ShowPostProfileComponent } from './component/show-post-profile/show-post-profile.component';
+import { WebSocketService } from './service/web-socket.service';
 
 
 @NgModule({
@@ -42,7 +43,7 @@ import { ShowPostProfileComponent } from './component/show-post-profile/show-pos
     HttpClientModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [WebSocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
