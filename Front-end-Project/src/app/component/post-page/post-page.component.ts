@@ -7,6 +7,7 @@ import jwt_decode from 'jwt-decode';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PostService } from 'src/app/service/post.service';
 import { User } from 'src/app/model/User';
+import { WebSocketService } from 'src/app/service/web-socket.service';
 
 @Component({
   selector: 'app-post-page',
@@ -14,7 +15,7 @@ import { User } from 'src/app/model/User';
   styleUrls: ['./post-page.component.css']
 })
 export class PostPageComponent implements OnInit {
-  constructor(private userServ:UserService,private route: ActivatedRoute,private postService: PostService,private router:Router) {
+  constructor(private userServ:UserService,private route: ActivatedRoute,private postService: PostService,private router:Router,private webSocketService:WebSocketService) {
   }
   jwtToken:any=inject(AuthenticationService).getToken();
   decodeJwt:DecodeJwt=jwt_decode(this.jwtToken);
@@ -120,7 +121,7 @@ export class PostPageComponent implements OnInit {
          const months = Math.floor(timeDifferenceInSeconds / 2592000);
          return `${months} months ago`;
    }
-   likePost(idPost:number){
+   likePost(idPost:number,email:string){
      const like=document.getElementById("like");
     
      this.postService.likePost(idPost,this.userDetails.body.id).subscribe(
@@ -130,7 +131,7 @@ export class PostPageComponent implements OnInit {
              like?.classList.remove("text-white");
              like?.classList.add("text-red-600");
              this.post['numberLikes']++;
-             
+             this.webSocketService.sendMessageNotif(email,'notif')
              return;
            }
            like?.classList.remove("text-red-600");

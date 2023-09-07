@@ -128,7 +128,7 @@ likePost(idPost:number,i:number,email:string){
           like?.classList.add("text-red-600");
           this.posts[i]['numberLikes']++;
           this.communicationService.triggerFunction2();
-          this.webSocketService.sendMessage(email,this.userDetails+"liked your post");
+          this.webSocketService.sendMessageNotif(email,'likePost');
           return;
         }
         like?.classList.remove("text-red-600");

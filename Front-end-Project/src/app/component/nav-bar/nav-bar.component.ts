@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { UserResponse } from 'src/app/model/UserResponse';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { NotificationService } from 'src/app/service/notification.service';
@@ -17,10 +18,18 @@ export class NavBarComponent implements OnInit {
   isHiddenNotif=true;
   isHidden=true;
   notifications:any;
+  private connectObservable!: Observable<any>;
+
   constructor(private authenticationService:AuthenticationService,private router: Router,private userServ:UserService,private webSocketService:WebSocketService,private notificationService :NotificationService){
   }
   ngOnInit(): void {
     this.getUserDetails();
+    this.webSocketService.connect();
+    setTimeout(() => {
+      this.webSocketService.onConnect2().subscribe(response=>{
+this.showNotification();
+  });
+    }, 500);
     
   }
   getUserDetails(){
@@ -123,14 +132,14 @@ export class NavBarComponent implements OnInit {
       this.funcRead(idUserFrom,idRecepeint,type,idPost);
       setTimeout(() => {
         location.reload()
-       }, 100);
+       }, 50);
       return;
     }
      this.router.navigate(['/post', idPost]);
      this.funcRead(idUserFrom,idRecepeint,type,idPost);
      setTimeout(() => {
       location.reload()
-     }, 100);
+     }, 50);
      
   }
 

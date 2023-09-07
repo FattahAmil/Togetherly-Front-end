@@ -16,28 +16,52 @@ export class WebSocketService {
 
 
   
-stompClient: Stomp.Client;
+stompClient!: Stomp.Client;
 private isConnected$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 jwtToken:any=inject(AuthenticationService).getToken();
 decodeJwt:DecodeJwt=jwt_decode(this.jwtToken);
 
 
 constructor() {
-    const ws = new SockJS(SERVER_URL);
-    this.stompClient = Stomp.over(ws);
-    this.stompClient.connect({}, () => {
-      // Successfully connected
-  
-      // Subscribe to the acknowledgment queue to receive acknowledgment messages
-      this.stompClient.subscribe('/user/'+this.decodeJwt.sub+"/privateMessage", (response) => {
-          // Handle the acknowledgment message
-          const receivedMessage = JSON.parse(response.body);
-          console.log( receivedMessage.content);
-      });
-    },this.onError);
+    
 }
 
+connect(){
+  const ws = new SockJS(SERVER_URL);
+    this.stompClient = Stomp.over(ws);
+     this.stompClient.connect({},this.onConnect2
+    //  () => {  // Successfully connected
+  
+    //   // Subscribe to the acknowledgment queue to receive acknowledgment messages
+    //   this.stompClient.subscribe('/user/'+this.decodeJwt.sub+"/privateMessage", (response) => {
+    //       // Handle the acknowledgment message
+    //       const receivedMessage = JSON.parse(response.body);
+    //       console.log( receivedMessage.content);
+    //   });
+    // }
+    ,this.onError);
+}
 
+onConnect=()=>{
+  this.stompClient.subscribe('/user/'+this.decodeJwt.sub+"/privateMessage", (response) => {
+    // Handle the acknowledgment message
+    const receivedMessage = JSON.parse(response.body);
+    console.log( receivedMessage.content);
+  });
+}
+onConnect2(): Observable<any> {
+  return new Observable<any>((observer) => {
+    this.stompClient.subscribe('/user/' + this.decodeJwt.sub + '/privateMessage', (response) => {
+      // Handle the acknowledgment message
+      const receivedMessage = JSON.parse(response.body);
+      console.log(receivedMessage.content);
+
+      // Emit the received message to observers
+      observer.next(receivedMessage);
+    });
+  });
+
+}
 onError=(error:any)=>{
     console.log(error)
 }
@@ -45,10 +69,11 @@ onError=(error:any)=>{
 
   
 
-  sendMessage(email:string,content:string){
+  sendMessageNotif(email:string,content:string){
     const ChatDtoReq={
         userEmailReceiver:email,
-        content:content
+        content:content,
+
     }
     this.stompClient.send('/app/privateMessage', {}, JSON.stringify(ChatDtoReq));
   }
