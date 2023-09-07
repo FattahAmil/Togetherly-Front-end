@@ -38,7 +38,7 @@ export class ShowFollowersComponent implements OnInit {
     this.followReq.following=this.userDetails.body.id;
     this.userService.followReq(this.followReq).subscribe(
       (response)=>{
-        console.log(response);
+        
         this.communicationService.triggerFunction2();
         this.communicationService.triggerFunction();
         this.getUnFollowedPerson()
@@ -53,7 +53,6 @@ export class ShowFollowersComponent implements OnInit {
       (users) => {
       this.users=users.body;
         
-        console.log()
 
       },
       (error) => {

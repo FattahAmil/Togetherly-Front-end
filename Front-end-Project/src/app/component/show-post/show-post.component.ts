@@ -76,7 +76,7 @@ showPostUser(){
           i++;
         });
        
-        console.log(this.posts);
+       
         
       });
 }
@@ -166,7 +166,7 @@ dropDownMenueConfirm(id:number){
 
 deletePost(id:number){
   this.postService.deletePost(id).subscribe((response)=>{
-    console.log(response)
+   
     this.showPostUser();
 
   });

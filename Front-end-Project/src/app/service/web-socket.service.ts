@@ -25,7 +25,6 @@ decodeJwt:DecodeJwt=jwt_decode(this.jwtToken);
 constructor() {
     const ws = new SockJS(SERVER_URL);
     this.stompClient = Stomp.over(ws);
-    this.onConnected = this.onConnected.bind(this);
     this.stompClient.connect({}, () => {
       // Successfully connected
   
@@ -35,22 +34,14 @@ constructor() {
           const receivedMessage = JSON.parse(response.body);
           console.log( receivedMessage.content);
       });
-    });
+    },this.onError);
 }
 
 
 onError=(error:any)=>{
     console.log(error)
 }
-onConnected(){
-   
-    this.stompClient.subscribe("/user/"+this.decodeJwt.sub+"/privateMessage",this.onPrivateMessageReceived)
-}
-onPrivateMessageReceived(response: any) {
-    
-    let responseData = JSON.parse(response.body);
-    
-}
+
 
   
 

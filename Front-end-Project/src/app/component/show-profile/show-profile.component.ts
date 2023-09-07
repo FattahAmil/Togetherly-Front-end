@@ -48,7 +48,7 @@ ngOnDestroy(): void {
         this.likes=response.body.numberOfLikes;
         this.followers=response.body.numberOfFollowers;
         this.following=response.body.numberOfFollowing;
-        console.log(response);
+       
     });
   }
 

@@ -32,7 +32,6 @@ getUserDetails(){
     this.userService.getUserFriends(this.userDetails.body.id).subscribe((response)=>{
      
       this.usersFriends=response.body;
-       console.log(this.usersFriends);
     });
   }
   navigateToProfilePage(emailProfile:string) {
