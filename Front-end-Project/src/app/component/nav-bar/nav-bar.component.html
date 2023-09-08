@@ -83,17 +83,17 @@
                 </div>
                 <div *ngIf="isLike(notif.notificationType)" class="w-full pl-3">
                     <div *ngIf="isRead(notif.isRead)" class="text-gray-500 text-sm mb-1.5 dark:text-gray-400"><span class="font-semibold text-gray-900 dark:text-white">{{notif.userFrom.firstName+' '+notif.userFrom.lastName}}</span> love your post. See it and view more.</div>
-                    <div *ngIf="!isRead(notif.isRead)" class="font-semibold text-gray-900 dark:text-white text-sm mb-1.5 ">{{notif.userFrom.firstName+' '+notif.userFrom.lastName}} love your post. See it and view more.</div>
+                    <div *ngIf="!isRead(notif.isRead)" class="font-semibold text-gray-900 dark:text-white text-sm mb-1.5 "><span class="font-bold">{{notif.userFrom.firstName+' '+notif.userFrom.lastName}}</span> love your post. See it and view more.</div>
                     <div class="text-xs text-blue-600 dark:text-blue-500">{{timeGenerator(notif.createdAt)}}</div>
                 </div>
                 <div  *ngIf="isFollow(notif.notificationType)"  class="w-full pl-3">
                     <div *ngIf="isRead(notif.isRead)" class="text-gray-500 text-sm mb-1.5 dark:text-gray-400"><span class="font-semibold text-gray-900 dark:text-white">{{notif.userFrom.firstName+' '+notif.userFrom.lastName}}</span> started following you.</div>
-                    <div *ngIf="!isRead(notif.isRead)" class="font-semibold text-gray-900 dark:text-white text-sm mb-1.5 ">{{notif.userFrom.firstName+' '+notif.userFrom.lastName}} started following you.</div>
+                    <div *ngIf="!isRead(notif.isRead)" class="font-semibold text-gray-900 dark:text-white text-sm mb-1.5 "><span class="font-bold">{{notif.userFrom.firstName+' '+notif.userFrom.lastName}}</span> started following you.</div>
                     <div class="text-xs text-blue-600 dark:text-blue-500">{{timeGenerator(notif.createdAt)}}</div>
                 </div>
                 <div  *ngIf="isComment(notif.notificationType)" class="w-full pl-3">
                     <div *ngIf="isRead(notif.isRead)" class="text-gray-500 text-sm mb-1.5 dark:text-gray-400"><span class="font-semibold text-gray-900 dark:text-white">{{notif.userFrom.firstName+' '+notif.userFrom.lastName}}</span> comment your post. See it and view more.</div>
-                    <div *ngIf="!isRead(notif.isRead)" class="font-semibold text-gray-900 dark:text-white text-sm mb-1.5 ">{{notif.userFrom.firstName+' '+notif.userFrom.lastName}} comment your post. See it and view more.</div>
+                    <div *ngIf="!isRead(notif.isRead)" class="font-semibold text-gray-900 dark:text-white text-sm mb-1.5 "><span class="font-bold">{{notif.userFrom.firstName+' '+notif.userFrom.lastName}}</span> comment your post. See it and view more.</div>
                     <div class="text-xs text-blue-600 dark:text-blue-500">{{timeGenerator(notif.createdAt)}}</div>
                 </div>
             </a>

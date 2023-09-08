@@ -75,7 +75,7 @@ onError=(error:any)=>{
         content:content,
 
     }
-    this.stompClient.send('/app/privateMessage', {}, JSON.stringify(ChatDtoReq));
+    this.stompClient.send('/app/notification', {}, JSON.stringify(ChatDtoReq));
   }
 
 
