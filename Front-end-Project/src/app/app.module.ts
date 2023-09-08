@@ -18,6 +18,8 @@ import { PostPageComponent } from './component/post-page/post-page.component';
 import { ProfilePageComponent } from './component/profile-page/profile-page.component';
 import { ShowPostProfileComponent } from './component/show-post-profile/show-post-profile.component';
 import { WebSocketService } from './service/web-socket.service';
+import { ChatUserPageComponent } from './component/chat-user-page/chat-user-page.component';
+import { FriendsPageComponent } from './component/friends-page/friends-page.component';
 
 
 @NgModule({
@@ -34,7 +36,10 @@ import { WebSocketService } from './service/web-socket.service';
     ShowLatestMessagesComponent,
     PostPageComponent,
     ProfilePageComponent,
-    ShowPostProfileComponent
+    ShowPostProfileComponent,
+
+    ChatUserPageComponent,
+      FriendsPageComponent
   ],
   imports: [
     BrowserModule,
