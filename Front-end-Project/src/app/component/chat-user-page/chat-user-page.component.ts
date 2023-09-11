@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit,ElementRef, Renderer2, AfterViewInit  } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserResponse } from 'src/app/model/UserResponse';
 import { CommunicationServiceService } from 'src/app/service/communication-service.service';
@@ -20,22 +20,27 @@ export class ChatUserPageComponent implements OnInit {
   lastNameProfile!:string;
   profileImageProfile!:string;
   allMessage:any;
+  ifFriend:any;
   content='';
  
 
-constructor(private userService:UserService,private messageService:MessagServiceService,private route: ActivatedRoute,private router:Router,private webSocketService:WebSocketService,private CommunicationService:CommunicationServiceService){
+constructor(private userService:UserService,private messageService:MessagServiceService,private route: ActivatedRoute,private router:Router,private elementRef: ElementRef, private renderer: Renderer2,private webSocketService:WebSocketService,private CommunicationService:CommunicationServiceService){
  
   this.getUserDetails();
 }
+ 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.emailProfile = params['email'];
     });
     setTimeout(() => {
+      this.scrollToLastElement();
+    }, 500);
+    setTimeout(() => {
       const allMessages=document.getElementById("allMessages");
       this.webSocketService.onConnect2().subscribe(response=>{
           if (allMessages!=null) {
-                      allMessages.innerHTML+='<div><div class="flex w-full mt-2 space-x-3 max-w-xs"><div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"><img class="w-10 h-10 rounded-full" src="'+this.userDetails.body.profileImage+'" alt="Rounded avatar"></div><div><div class="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg"><p class="text-sm">'+response.content+'</p></div><span class="text-xs text-gray-500 leading-none">'+this.timeGenerator(response.createdAt)+'</span></div></div></div>';
+            allMessages.innerHTML+='<div><div class="flex w-full mt-2 space-x-3 max-w-xs"><div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"><img class="w-10 h-10 rounded-full" src="'+this.userDetails.body.profileImage+'" alt="Rounded avatar"></div><div><div class="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg"><p class="text-sm">'+response.content+'</p></div><span class="text-xs text-gray-500 leading-none">'+this.timeGenerator(response.createdAt)+'</span></div></div></div>';
           }
 
       });
@@ -104,6 +109,7 @@ getUserDetailsByUser(){
     this.lastNameProfile=response.body.lastName;
     this.profileImageProfile=response.body.profileImage;
     this.getPrivateMessages();
+    this.showCheckIfFriend()
   })
 }
 sendPrivateMessage(){
@@ -125,6 +131,33 @@ getPrivateMessages(){
     this.allMessage=response.body;
   });
 }
+scrollToLastElement() {
+  const container = this.elementRef.nativeElement.querySelector('#allMessages'); // Replace 'container-class' with the class of your container element
+  if (container) {
+    const lastElement = container.lastElementChild;
+    if (lastElement) {
+      lastElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+}
+showCheckIfFriend(){
+  const messageInput=document.getElementById("MessageInput");
+  const sendButton=document.getElementById("SendButton");
+  this.userService.checkIfFriend(this.userDetails.body.id,this.idProfile).subscribe(response=>{
+    this.ifFriend=response.body
+    if (this.ifFriend==false) {
+      messageInput?.setAttribute('disabled','true');
+      messageInput?.classList.add('cursor-not-allowed');
+      sendButton?.setAttribute('disabled','true');
+      sendButton?.classList.add('cursor-not-allowed');
+    }
+  })
+  //  if (this.ifFriend==false) {
+  //     return this.ifFriend=false
+  //   }
+  //   return this.if
+}
+
 
 
 }

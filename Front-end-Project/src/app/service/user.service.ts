@@ -39,6 +39,13 @@ export class UserService {
   getUserNotFollwed(id:String):Observable<any>{
     return  this.http.get(`${this.url}/notFollowed/${id}`);
   }
+  checkIfFriend(idUser1:string,idUser2:string):Observable<any>{
+    const users={
+      senderId:idUser1,
+      recipientId:idUser2
+    }
+    return this.http.post(`${this.url}/isFriend`,users);
+  }
   
   getNumbersOfLikesFollowersFollowing(idUser:String):Observable<any>{
     const user={

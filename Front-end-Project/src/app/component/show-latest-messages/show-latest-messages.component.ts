@@ -34,6 +34,11 @@ getUserDetails(){
       this.usersFriends=response.body;
     });
   }
+  navigateToChatByUser(emailUser:string){
+    this.router.navigate(['/privateChat',emailUser]).then(()=>{
+      location.reload()
+    });
+  }
   navigateToProfilePage(emailProfile:string) {
     this.router.navigate(['/profile', emailProfile]).then(()=>{
       location.reload()

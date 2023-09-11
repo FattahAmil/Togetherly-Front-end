@@ -177,7 +177,10 @@ navigateToPostPage(postId: number) {
 navigateToProfilePage(emailProfile:string) {
   this.router.navigate(['/profile', emailProfile]);
 }
-
-
-
+  checkIfTherIsPosts(){
+    if(!this.posts||!(this.posts.length>0)){
+      return false
+    }
+    return true
+  }
 }
