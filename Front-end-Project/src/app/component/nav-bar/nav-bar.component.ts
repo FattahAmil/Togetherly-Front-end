@@ -26,10 +26,10 @@ export class NavBarComponent implements OnInit {
     this.getUserDetails();
     this.webSocketService.connect();
     setTimeout(() => {
-      this.webSocketService.onConnect2().subscribe(response=>{
-this.showNotification();
-  });
-    }, 500);
+      this.webSocketService.onConnectNotif().subscribe(response=>{
+        this.showNotification();
+      });
+    }, 700);
     
   }
   getUserDetails(){
@@ -67,7 +67,6 @@ this.showNotification();
 
       this.notificationService.showPostAndUserDetails(this.userDetails.body.id).subscribe((response)=>{
         this.notifications=response.body;
-        console.log( response.body);
         let i=0
         this.notifications.forEach(() => {
           if (this.notifications[i].isRead==false) {
@@ -128,14 +127,23 @@ this.showNotification();
   }
   navigateToProfilePage(emailProfile:string,idPost:number,idUserFrom:string,idRecepeint:string,type:string) {
     if (emailProfile!=null) {
-      this.router.navigate(['/profile', emailProfile]);
-      this.funcRead(idUserFrom,idRecepeint,type,idPost);
-      setTimeout(() => {
-        location.reload()
-       }, 50);
-      return;
+      if(type=="FOLLOW"){
+      this.router.navigate(['profile', emailProfile]);
+            this.funcRead(idUserFrom,idRecepeint,type,idPost);
+            setTimeout(() => {
+              location.reload()
+            }, 50);
+            return;
+      }
+      this.router.navigate(['privateChat', emailProfile]);
+            this.funcRead(idUserFrom,idRecepeint,type,idPost);
+            setTimeout(() => {
+              location.reload()
+            }, 50);
+            return;
+      
     }
-     this.router.navigate(['/post', idPost]);
+     this.router.navigate(['post', idPost]);
      this.funcRead(idUserFrom,idRecepeint,type,idPost);
      setTimeout(() => {
       location.reload()
@@ -145,7 +153,6 @@ this.showNotification();
 
   funcRead(idUserFrom:string,idRecepeint:string,type:string,idpost:number){
    this.notificationService.funcRead(idRecepeint,idUserFrom,type,idpost).subscribe((respons)=>{
-    console.log(respons);
    
     });
    

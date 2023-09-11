@@ -56,7 +56,6 @@ export class CreatePostComponent implements OnInit{
        fileContent:myFile,
       };
       this.post.mediaList.push(fileHandle);
-      console.log(fileHandle);
     })
 
     
@@ -68,7 +67,7 @@ onCreate(){
   this.postService.createPost(this.post).subscribe(value=>{
     this.post.mediaList=[];
   if (this.messageTextArea) {
-  this.messageTextArea.value=' ';
+  this.messageTextArea.value='';
   } 
   this.communicationService.triggerFunction();
   });
@@ -84,7 +83,6 @@ convertFile(file : File) : Observable<string> {
 
 
  removeMedia(i:number){
-   console.log(this.post.mediaList[i])
   this.post.mediaList.splice(i,1);
  
  }

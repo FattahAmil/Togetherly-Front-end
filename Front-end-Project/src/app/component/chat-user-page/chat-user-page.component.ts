@@ -2,7 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserResponse } from 'src/app/model/UserResponse';
 import { CommunicationServiceService } from 'src/app/service/communication-service.service';
+import { MessagServiceService } from 'src/app/service/messag-service.service';
 import { UserService } from 'src/app/service/user.service';
+import { WebSocketService } from 'src/app/service/web-socket.service';
 
 @Component({
   selector: 'app-chat-user-page',
@@ -17,13 +19,27 @@ export class ChatUserPageComponent implements OnInit {
   firstNameProfile!:string;
   lastNameProfile!:string;
   profileImageProfile!:string;
-constructor(private userService:UserService,private route: ActivatedRoute,private router:Router,private CommunicationService:CommunicationServiceService){
+  allMessage:any;
+  content='';
+ 
+
+constructor(private userService:UserService,private messageService:MessagServiceService,private route: ActivatedRoute,private router:Router,private webSocketService:WebSocketService,private CommunicationService:CommunicationServiceService){
+ 
   this.getUserDetails();
 }
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.emailProfile = params['email'];
     });
+    setTimeout(() => {
+      const allMessages=document.getElementById("allMessages");
+      this.webSocketService.onConnect2().subscribe(response=>{
+          if (allMessages!=null) {
+                      allMessages.innerHTML+='<div><div class="flex w-full mt-2 space-x-3 max-w-xs"><div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"><img class="w-10 h-10 rounded-full" src="'+this.userDetails.body.profileImage+'" alt="Rounded avatar"></div><div><div class="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg"><p class="text-sm">'+response.content+'</p></div><span class="text-xs text-gray-500 leading-none">'+this.timeGenerator(response.createdAt)+'</span></div></div></div>';
+          }
+
+      });
+    }, 700);
   }
 
 getUserDetails(){
@@ -31,13 +47,40 @@ getUserDetails(){
     (userData) => {
       this.userDetails = userData ;
       this.getUserFriends();
-      this.getUserDetailsByUser()
+      this.getUserDetailsByUser();
+      
     },
     (error) => {
       console.error(error);
     }
   );
 }
+timeGenerator(date:number){
+  const previousTime= new Date(date);
+  const currentTime = new Date();
+    const timeDifferenceInSeconds = Math.floor((currentTime.getTime() - previousTime.getTime()) / 1000);
+    if (timeDifferenceInSeconds < 60) {
+      return `${timeDifferenceInSeconds} seconds ago`;
+    }if (timeDifferenceInSeconds < 3600) {
+      const minutes = Math.floor(timeDifferenceInSeconds / 60);
+      return `${minutes} minutes ago`;
+    } if (timeDifferenceInSeconds < 86400) {
+      const hours = Math.floor(timeDifferenceInSeconds / 3600);
+      return  `${hours} hours ago`;
+    } if (timeDifferenceInSeconds < 2592000) {
+      const days = Math.floor(timeDifferenceInSeconds / 86400);
+      return `${days} days ago`;
+    }  
+      const months = Math.floor(timeDifferenceInSeconds / 2592000);
+      return `${months} months ago`;
+}
+checkIfSenderorReciever(idSender:string){
+  if (idSender===this.userDetails.body.id) {
+    return true
+  }
+  return false
+}
+
 getUserFriends(){
   this.userService.getUserFriends(this.userDetails.body.id).subscribe((response)=>{
    
@@ -60,7 +103,28 @@ getUserDetailsByUser(){
     this.firstNameProfile=response.body.firstName;
     this.lastNameProfile=response.body.lastName;
     this.profileImageProfile=response.body.profileImage;
-    
+    this.getPrivateMessages();
   })
 }
+sendPrivateMessage(){
+  const allMessages=document.getElementById("allMessages");
+  const date:Date=new Date();
+  if (this.content.trim()!='') {
+    this.webSocketService.sendPrivateMessage(this.userDetails.body.id,this.idProfile,this.content,'CHAT');
+    if(allMessages!=null){
+      allMessages.innerHTML+='<div><div class="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end"><div><div class="bg-blue-600 text-white p-3 rounded-l-lg rounded-br-lg"><p class="text-sm">'+this.content+'</p></div><span class="text-xs text-gray-500 leading-none">'+this.timeGenerator(date.getTime())+'</span></div><div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"><img class="w-10 h-10 rounded-full" src="'+this.userDetails.body.profileImage+'" alt="Rounded avatar"></div></div></div>';
+      this.content='';
+      setTimeout(() => {
+        this.webSocketService.sendMessageNotif(this.emailProfile,'send Message');
+      }, 400);
+    }
+  }
+}
+getPrivateMessages(){
+  this.messageService.getMessaageBySenderReciver(this.userDetails.body.id,this.idProfile).subscribe((response)=>{
+    this.allMessage=response.body;
+  });
+}
+
+
 }

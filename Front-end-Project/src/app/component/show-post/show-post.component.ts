@@ -119,7 +119,6 @@ timeGenerator(date:number){
 }
 likePost(idPost:number,i:number,email:string){
   const like=document.getElementById("like-"+i);
-  console.log("like-"+i);
   this.postService.likePost(idPost,this.idUser).subscribe(
       (response)=>{
         

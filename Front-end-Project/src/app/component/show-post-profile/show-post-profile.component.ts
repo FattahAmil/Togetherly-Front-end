@@ -58,7 +58,6 @@ export class ShowPostProfileComponent implements OnInit,OnDestroy {
     );
   }
 showPostUser(){
-     console.log(this.idUserPost);
     this.postService.showPostAndUserDetails(this.idUserPost).subscribe(
       (response)=>{
         this.posts=response.body;
@@ -123,7 +122,6 @@ timeGenerator(date:number){
 }
 likePost(idPost:number,i:number,email:string){
   const like=document.getElementById("like-"+i);
-  console.log("like-"+i);
   this.postService.likePost(idPost,this.userDetails.body.id).subscribe(
       (response)=>{
         

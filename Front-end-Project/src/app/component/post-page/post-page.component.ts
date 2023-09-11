@@ -34,7 +34,6 @@ export class PostPageComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.idPost = +params['id'];
     });
-    console.log("ID POST",this.idPost);
     this.getUserDetails();
     
     
@@ -81,7 +80,6 @@ export class PostPageComponent implements OnInit {
         this.isLoading=true
       });
       
-      console.log(this.post)
     });
   }
 
@@ -163,7 +161,6 @@ dropDownMenueConfirm(){
 
 deletePost(id:number){
   this.postService.deletePost(id).subscribe((response)=>{
-    console.log(response)
     this.router.navigate(["/index"]);
 
   });
@@ -174,7 +171,8 @@ createComment(){
       return;
     }
   this.postService.createComment(this.post.id,this.userDetails.body.id,this.contentOfComment).subscribe((response)=>{
-      console.log(response)
+    this.webSocketService.sendMessageNotif(this.post.user.email,'notif')
+  
       this.contentOfComment='';
       this.PostById();
   })
