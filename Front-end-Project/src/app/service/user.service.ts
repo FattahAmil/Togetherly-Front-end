@@ -46,6 +46,13 @@ export class UserService {
     }
     return this.http.post(`${this.url}/isFriend`,users);
   }
+  checkIfFollow(following:string,followed:string):Observable<any>{
+    const users={
+      following:following,
+      followed:followed
+    }
+    return this.http.post(`${this.url}/isFollow`,users);
+  }
   
   getNumbersOfLikesFollowersFollowing(idUser:String):Observable<any>{
     const user={

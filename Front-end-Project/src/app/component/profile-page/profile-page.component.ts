@@ -7,6 +7,8 @@ import jwt_decode from 'jwt-decode';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommunicationServiceService } from 'src/app/service/communication-service.service';
 import { Subscription } from 'rxjs';
+import { FollowReq } from 'src/app/model/FollowReq';
+import { WebSocketService } from 'src/app/service/web-socket.service';
 
 
 @Component({
@@ -15,7 +17,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./profile-page.component.css']
 })
 export class ProfilePageComponent  implements OnInit,OnDestroy {
-  constructor(private userServ:UserService,private route: ActivatedRoute,private router :Router,private communicationService: CommunicationServiceService) {
+  constructor(private userServ:UserService,private route: ActivatedRoute,private router :Router,private communicationService: CommunicationServiceService,private webSocketService:WebSocketService) {
     this.subscription = this.communicationService.triggerFunction3$.subscribe(() => {
       this.getNumbersOfLikesFollowersFollowing();
     });
@@ -38,6 +40,10 @@ export class ProfilePageComponent  implements OnInit,OnDestroy {
   likes:number=0;
   followers:number=0;
   following:number=0;
+  ifFollow=true;
+  isFriend=false;
+  followReq:FollowReq=new FollowReq() ;
+
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -81,8 +87,58 @@ export class ProfilePageComponent  implements OnInit,OnDestroy {
       this.firstNameProfile=response.body.firstName;
       this.lastNameProfile=response.body.lastName;
       this.profileImageProfile=response.body.profileImage;
+      setTimeout(() => {
+        this.checkIfFollow();
+        this.checkIfFriend();
+      }, 100);
+     
       this.getNumbersOfLikesFollowersFollowing();
     })
   }
+  checkIfFollow(){
+    this.userServ.checkIfFollow(this.userDetails.body.id,this.idProfile).subscribe(response=>{
+      this.ifFollow=response.body;
+      
+    })
+  }
+  checkIfFriend(){
+    const sendButton=document.getElementById("SendButton");
+    this.userServ.checkIfFriend(this.userDetails.body.id,this.idProfile).subscribe(response=>{
+      this.isFriend=response.body;
+      
+      if (this.isFriend==false) {
+        console.log(response.body)
+        sendButton?.setAttribute('disabled','true');
+        sendButton?.classList.add('cursor-not-allowed');
+      }
+
+    })
+  }
+
+  followRequest(){
+    this.followReq.followed=this.idProfile;
+    this.followReq.following=this.userDetails.body.id;
+    this.userServ.followReq(this.followReq).subscribe(
+      (response)=>{
+        setTimeout(() => {
+          this.checkIfFriend();
+        }, 50);
+
+      
+      if (this.ifFollow==false) {
+        this.ifFollow=true;
+        this.followers++;
+        this.webSocketService.sendMessageNotif(this.emailProfile,"you are followed by"+this.userDetails.body.email);
+        return;
+      }
+      this.followers--
+      this.ifFollow=false
+        
+      }
+    );
+  }
+  checkIfYourProfile(){
+    return this.userDetails.body.email === this.emailProfile;
+  }  
 
 }

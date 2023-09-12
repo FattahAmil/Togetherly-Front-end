@@ -20,6 +20,7 @@ import { ShowPostProfileComponent } from './component/show-post-profile/show-pos
 import { WebSocketService } from './service/web-socket.service';
 import { ChatUserPageComponent } from './component/chat-user-page/chat-user-page.component';
 import { FriendsPageComponent } from './component/friends-page/friends-page.component';
+import { RequestFriendPageComponent } from './component/request-friend-page/request-friend-page.component';
 
 
 @NgModule({
@@ -37,9 +38,9 @@ import { FriendsPageComponent } from './component/friends-page/friends-page.comp
     PostPageComponent,
     ProfilePageComponent,
     ShowPostProfileComponent,
-
     ChatUserPageComponent,
-      FriendsPageComponent
+    FriendsPageComponent,
+    RequestFriendPageComponent
   ],
   imports: [
     BrowserModule,

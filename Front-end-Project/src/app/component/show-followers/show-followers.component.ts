@@ -1,9 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FollowReq } from 'src/app/model/FollowReq';
 import { User } from 'src/app/model/User';
 import { UserResponse } from 'src/app/model/UserResponse';
 import { CommunicationServiceService } from 'src/app/service/communication-service.service';
 import { UserService } from "src/app/service/user.service";
+import { WebSocketService } from 'src/app/service/web-socket.service';
 
 @Component({
   selector: 'app-show-followers',
@@ -15,7 +17,7 @@ export class ShowFollowersComponent implements OnInit {
   userDetails:UserResponse=new UserResponse()
   followReq:FollowReq=new FollowReq() ;
   users: any;
-  constructor(private userService:UserService,private communicationService: CommunicationServiceService){
+  constructor(private userService:UserService,private communicationService: CommunicationServiceService,private router:Router,private webSocketService:WebSocketService){
   }
   ngOnInit(): void {
     
@@ -33,7 +35,7 @@ export class ShowFollowersComponent implements OnInit {
       }
     );
   }
-  followRequest(followedId:string){
+  followRequest(followedId:string,email:string){
     this.followReq.followed=followedId;
     this.followReq.following=this.userDetails.body.id;
     this.userService.followReq(this.followReq).subscribe(
@@ -41,7 +43,8 @@ export class ShowFollowersComponent implements OnInit {
         
         this.communicationService.triggerFunction2();
         this.communicationService.triggerFunction();
-        this.getUnFollowedPerson()
+        this.getUnFollowedPerson();
+        this.webSocketService.sendMessageNotif(email,"you are followed by"+this.userDetails.body.email)
       }
     );
    
@@ -61,6 +64,14 @@ export class ShowFollowersComponent implements OnInit {
     )
    
   }
+  navigateToPageFollowReq(){
+  this.router.navigate(['reqFriends']);
+  }
 
+  navigateToProfilePage(emailProfile:string) {
+    this.router.navigate(['/profile', emailProfile])
+    
+    
+  }
   
 }
