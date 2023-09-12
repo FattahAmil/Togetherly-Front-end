@@ -1,9 +1,9 @@
 
 <div class="flex items-center justify-center h-screen">
-    <div id="toast" class="absolute z-50 top-1 hidden items-center w-full mx-auto max-w-7xl">
+    <div id="toast" class="absolute  top-1 left-1 z-50 ">
         
     </div>
-    <div class="w-10/12 h-5/6 flex rounded-lg shadow-2xl ">
+    <div class="w-10/12 h-[86%] flex rounded-lg shadow-2xl ">
         <!-- Left Column -->
         <div class="relative flex-1 rounded-l-lg hidden items-center justify-center bg-cover bg-[url('./assets/bg.png')] lg:flex">
             <div class="relative z-10 w-full max-w-md">
@@ -29,12 +29,12 @@
         </div>
 
         <!-- Right Column -->
-        <div class="flex-1 flex items-center justify-center h-5/6">
-            <div class="w-full max-w-md space-y-8 px-7 pt-16 bg-white text-gray-600 sm:px-0">
+        <div class="flex-1 flex items-center justify-center h-full p-4">
+            <div class="w-[95%] max-w-md space-y-8 px-7  bg-white text-gray-600 sm:px-0">
                 <div class="">
                     <img src="./assets/logo.png" class=" w-20 lg:hidden" />
-                    <div class="mt-5 space-y-2">
-                        <h3 class="text-gray-800 mt-12 text-2xl font-bold sm:text-3xl">Sign up</h3>
+                    <div class="mt-2 space-y-2">
+                        <h3 class="text-gray-800 mt-3 text-2xl font-bold sm:text-3xl">Sign up</h3>
                         <p class="">Already have an account? <a (click)="loginPage()" class="font-medium cursor-pointer text-indigo-600 hover:text-indigo-500">Log in</a></p>
                     </div>
                 </div>
@@ -47,20 +47,44 @@
                     <div class="flex gap-4">
                         <div>
                             <label class="font-medium">First name</label>
-                            <input type="text" formControlName="firstName" required class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg" />
+                            <input type="text" maxlength="20" formControlName="firstName" required class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg" />
+                            <div *ngIf="form.get('firstName')?.hasError('required') && (form.get('firstName')?.dirty || form.get('firstName')?.touched)">
+                                <div class="text-red-500 text-xs">First name is required.</div>
+                            </div>
+                            <div *ngIf="form.get('firstName')?.hasError('pattern')  && (form.get('firstName')?.dirty || form.get('firstName')?.touched)">
+                                <div class="text-red-500 text-xs">First name should contains only letters.</div>
+                            </div>
                         </div>
                         <div>
                             <label class="font-medium">Last name</label>
-                            <input type="text" formControlName="lastName" required class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg" />
+                            <input type="text" maxlength="20" formControlName="lastName" class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg" />
+                            <div *ngIf="form.get('lastName')?.hasError('required') && (form.get('lastName')?.dirty || form.get('lastName')?.touched)">
+                                <div class="text-red-500 text-xs">Last name is required.</div>
+                            </div>
+                            <div *ngIf="form.get('lastName')?.hasError('pattern')  && (form.get('lastName')?.dirty || form.get('lastName')?.touched)">
+                                <div class="text-red-500 text-xs">Last name should contains only letters.</div>
+                            </div>
                         </div>
                     </div>
                     <div>
                         <label class="font-medium">Email</label>
-                        <input type="email" formControlName="email" required class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg" />
+                        <input type="email" maxlength="75" formControlName="email" required class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg" />
+                        <div *ngIf="form.get('email')?.hasError('required') && (form.get('email')?.dirty || form.get('email')?.touched)">
+                            <div class="text-red-500 text-xs">email is required.</div>
+                        </div>
+                        <div *ngIf="form.get('email')?.hasError('pattern')  && (form.get('email')?.dirty || form.get('email')?.touched)">
+                            <div class="text-red-500 text-xs">Invalid email format (valid@example.com).</div>
+                        </div>
                     </div>
                     <div>
                         <label class="font-medium">Password</label>
-                        <input type="password" formControlName="password" required class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg" />
+                        <input type="password" minlength="8" maxlength="15" formControlName="password" required class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg" />
+                        <div *ngIf="form.get('password')?.hasError('required') && (form.get('password')?.dirty || form.get('password')?.touched)">
+                            <div class="text-red-500 text-xs">Password is required.</div>
+                        </div>
+                        <div *ngIf="form.get('password')?.hasError('pattern') && (form.get('password')?.dirty || form.get('password')?.touched)">
+                            <div class="text-red-500 text-xs">Password must contain at least 1 letter uppercase and lowercase , 1 digit [0-9], and be at least between 8 and 15 characters.</div>
+                        </div>
                     </div>
                     <button type="submit" class="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150">Create account</button>
                 </form>

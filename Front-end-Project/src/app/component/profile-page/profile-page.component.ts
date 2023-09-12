@@ -139,6 +139,9 @@ export class ProfilePageComponent  implements OnInit,OnDestroy {
   }
   checkIfYourProfile(){
     return this.userDetails.body.email === this.emailProfile;
-  }  
+  } 
+  navigateToChatByUser(){
+    this.router.navigate(['/privateChat',this.emailProfile])
+  } 
 
 }

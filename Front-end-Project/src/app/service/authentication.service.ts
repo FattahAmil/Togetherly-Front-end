@@ -23,8 +23,10 @@ export class AuthenticationService {
     return this.http.post<any>(`${this.url}/login`, user).pipe(
       tap(response => {
         const data = response as Response;
-        console.log(data.body.access_token)
-        sessionStorage.setItem('auth_token', data.body.access_token);
+        
+        if (response.body.access_token!==undefined) {
+         sessionStorage.setItem('auth_token', data.body.access_token);
+        }
 
       }),
       catchError(error => {
