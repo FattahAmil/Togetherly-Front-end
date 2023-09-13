@@ -65,5 +65,8 @@ export class UserService {
   getUserFriends(id:String):Observable<any>{
     return  this.http.get(`${this.url}/getFriends/${id}`);
   }
+  findAllUsers():Observable<any>{
+    return this.http.get(`${this.url}/findAllUsers`);
+  }
 
 }

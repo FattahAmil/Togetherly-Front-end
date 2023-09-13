@@ -18,12 +18,16 @@ export class NavBarComponent implements OnInit {
   isHiddenNotif=true;
   isHidden=true;
   notifications:any;
+  searchInput='';
+  dataSearch: Array<{ email: string,firstName:string,lastName:string }> = [];
+  dataUsersBySearche:any;
   private connectObservable!: Observable<any>;
 
   constructor(private authenticationService:AuthenticationService,private router: Router,private userServ:UserService,private webSocketService:WebSocketService,private notificationService :NotificationService){
   }
   ngOnInit(): void {
     this.getUserDetails();
+    this.findAllUsers();
     this.webSocketService.connect();
     setTimeout(() => {
       this.webSocketService.onConnectNotif().subscribe(response=>{
@@ -77,34 +81,19 @@ export class NavBarComponent implements OnInit {
       })
   }
   isMessage(type:string){
-    if (type==="MESSAGE") {
-      return true;
-    }
-    return false;
+    return type==="MESSAGE"
   }
   isComment(type:string){
-    if (type==="COMMENT") {
-      return true;
-    }
-    return false;
+    return type==="COMMENT"
   }
   isLike(type:string){
-    if (type==="LIKE") {
-      return true;
-    }
-    return false;
+    return type==="LIKE"
   }
   isFollow(type:string){
-    if (type==="FOLLOW") {
-      return true;
-    }
-    return false;
+    return type==="FOLLOW"
   }
   isRead(read:boolean){
-      if (read==true) {
-        return true;
-      }
-      return false;
+      return read==true
   }
   timeGenerator(date:number){
     const previousTime= new Date(date)
@@ -158,7 +147,50 @@ export class NavBarComponent implements OnInit {
    
      
   }
-  
+  findAllUsers(){
+    this.userServ.findAllUsers().subscribe(response=>{
+      this.dataSearch=response.body;
+    
+    });
+  }
+  onSearch(event:KeyboardEvent){
+    let regex = /^[a-zA-Z]$/; 
+    if (regex.test(event.key)) {
+      this.dataUsersBySearche = this.dataSearch.filter((row) => (row['firstName'].toLowerCase()+row['lastName'].toLowerCase()).includes(this.searchInput.toLowerCase().trim().concat(event.key)));
+    }else if(event.key === "Backspace" && this.searchInput.length < 2){
+      this.dataUsersBySearche=[];
+    }else if(event.key === "Backspace" && this.searchInput.length > 0){
+      this.dataUsersBySearche = this.dataSearch.filter((row) => (row['firstName'].toLowerCase()+row['lastName'].toLowerCase()).includes(this.searchInput.toLowerCase().trim().substring(0,this.searchInput.length-1)));
+    }
+    else{
+      event.preventDefault();
+
+    }
+    
+    // if (event.key === "Backspace" && this.searchInput.length > 0) {
+    //   // Handle "Backspace" key press by removing the last character
+    //   this.searchInput = this.searchInput.slice(0, -1);
+    // } else if(regex.test(event.key)) {
+    //   // Append the pressed key to the search input
+    //   console.log(this.searchInput)
+    // }else if (!regex.test(event.key)) {
+    //   event.preventDefault();
+    //   return;
+    // } 
+    // if (event.key !== "Backspace") {
+    //    this.dataUsersBySearche = this.dataSearch.filter((row) => row['email'].toLowerCase().includes(this.searchInput.toLowerCase().trim().concat(event.key)));
+    
+    // }else{
+    //   this.dataUsersBySearche = this.dataSearch.filter((row) => row['email'].toLowerCase().includes(this.searchInput.toLowerCase().trim()));
+
+    // }
+  //  console.log(this.dataUsersBySearche)
+  }
+  navigateToProfilePage2(emailProfile:string) {
+    this.router.navigate(['/profile', emailProfile]).then(()=>{
+      location.reload()
+    })    
+  }
 
   logout(){
     this.authenticationService.logout();
