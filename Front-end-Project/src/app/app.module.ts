@@ -21,6 +21,7 @@ import { WebSocketService } from './service/web-socket.service';
 import { ChatUserPageComponent } from './component/chat-user-page/chat-user-page.component';
 import { FriendsPageComponent } from './component/friends-page/friends-page.component';
 import { RequestFriendPageComponent } from './component/request-friend-page/request-friend-page.component';
+import { ProfileSettingsComponent } from './component/profile-settings/profile-settings.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { RequestFriendPageComponent } from './component/request-friend-page/requ
     ShowPostProfileComponent,
     ChatUserPageComponent,
     FriendsPageComponent,
-    RequestFriendPageComponent
+    RequestFriendPageComponent,
+    ProfileSettingsComponent
   ],
   imports: [
     BrowserModule,

@@ -40,6 +40,7 @@ export class ProfilePageComponent  implements OnInit,OnDestroy {
   likes:number=0;
   followers:number=0;
   following:number=0;
+  isHidden=false;
   ifFollow=true;
   isFriend=false;
   followReq:FollowReq=new FollowReq() ;
@@ -113,6 +114,15 @@ export class ProfilePageComponent  implements OnInit,OnDestroy {
       }
 
     })
+  }
+  hide(check:boolean){
+    if (this.isHidden==check) {
+      this.isHidden=check;
+      return;
+    }else{
+      this.isHidden=check;
+    }
+    
   }
 
   followRequest(){
