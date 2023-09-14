@@ -31,9 +31,13 @@ export class NavBarComponent implements OnInit {
     this.webSocketService.connect();
     setTimeout(() => {
       this.webSocketService.onConnectNotif().subscribe(response=>{
+        if (response.content=="updateRole") {
+          sessionStorage.clear();
+          this.router.navigate(['login']);
+        }
         this.showNotification();
       });
-    }, 700);
+    }, 900);
     
   }
   getUserDetails(){

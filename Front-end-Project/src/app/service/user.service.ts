@@ -53,7 +53,9 @@ export class UserService {
     }
     return this.http.post(`${this.url}/isFollow`,users);
   }
-  
+  updateUser(user:any):Observable<any>{
+    return this.http.put(`${this.url}/update`,user)
+  }
   getNumbersOfLikesFollowersFollowing(idUser:String):Observable<any>{
     const user={
       idUser:idUser

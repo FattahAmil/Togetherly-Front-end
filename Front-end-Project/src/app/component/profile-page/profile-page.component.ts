@@ -108,7 +108,7 @@ export class ProfilePageComponent  implements OnInit,OnDestroy {
       this.isFriend=response.body;
       
       if (this.isFriend==false) {
-        console.log(response.body)
+        
         sendButton?.setAttribute('disabled','true');
         sendButton?.classList.add('cursor-not-allowed');
       }

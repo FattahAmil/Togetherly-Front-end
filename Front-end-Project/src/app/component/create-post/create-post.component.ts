@@ -46,7 +46,8 @@ export class CreatePostComponent implements OnInit{
     reader.readAsText(file);
     let myFile:string;
     let fileHandle:FileHandle;
-    this.convertFile(file).subscribe(fileConverted => {myFile = fileConverted; 
+    this.convertFile(file).subscribe(fileConverted => {
+      myFile = fileConverted; 
        fileHandle={
         fileName:file.name,
         fileSize:file.size,
@@ -55,6 +56,7 @@ export class CreatePostComponent implements OnInit{
        // fileContent:window.URL.createObjectURL(file),
        fileContent:myFile,
       };
+      
       this.post.mediaList.push(fileHandle);
     })
 
