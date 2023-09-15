@@ -34,6 +34,9 @@ export class NavBarComponent implements OnInit {
         if (response.content=="updateRole") {
           sessionStorage.clear();
           this.router.navigate(['login']);
+          setTimeout(() => {
+            location.reload();
+          }, 50);
         }
         this.showNotification();
       });
