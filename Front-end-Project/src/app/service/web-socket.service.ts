@@ -1,8 +1,5 @@
-import { AnonymousSubject } from 'rxjs/internal/Subject';
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, Subject, Observer, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { inject } from '@angular/core';
+import { Observable, BehaviorSubject } from 'rxjs';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import { AuthenticationService } from './authentication.service';

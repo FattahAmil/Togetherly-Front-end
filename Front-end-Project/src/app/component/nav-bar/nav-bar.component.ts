@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { UserResponse } from 'src/app/model/UserResponse';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { NotificationService } from 'src/app/service/notification.service';
@@ -21,7 +20,6 @@ export class NavBarComponent implements OnInit {
   searchInput='';
   dataSearch: Array<{ email: string,firstName:string,lastName:string }> = [];
   dataUsersBySearche:any;
-  private connectObservable!: Observable<any>;
 
   constructor(private authenticationService:AuthenticationService,private router: Router,private userServ:UserService,private webSocketService:WebSocketService,private notificationService :NotificationService){
   }
