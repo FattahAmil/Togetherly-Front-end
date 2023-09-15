@@ -7,12 +7,12 @@
     </div>
     <div class="flow-root">
         <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">      
-            <li *ngFor="let user of users;" class="pt-3 pb-0 sm:pt-4">
+            <li *ngFor="let user of users;" class="pt-3  pb-0 sm:pt-4">
                 <div class="flex items-center space-x-4">
-                    <div (click)="navigateToProfilePage(user.email)" class="flex-shrink-0">
+                    <div (click)="navigateToProfilePage(user.email)" class="flex-shrink-0  cursor-pointer">
                         <img class="w-8 h-8 rounded-full" [src]="user.profileImage" alt="Thomas image">
                     </div>
-                    <div class="flex-1 min-w-0" (click)="navigateToProfilePage(user.email)">
+                    <div class="flex-1 min-w-0 cursor-pointer" (click)="navigateToProfilePage(user.email)">
                         <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
                             {{user.firstName}}
                         </p>

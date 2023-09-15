@@ -22,6 +22,7 @@ import { ChatUserPageComponent } from './component/chat-user-page/chat-user-page
 import { FriendsPageComponent } from './component/friends-page/friends-page.component';
 import { RequestFriendPageComponent } from './component/request-friend-page/request-friend-page.component';
 import { ProfileSettingsComponent } from './component/profile-settings/profile-settings.component';
+import { NavigationMobileComponent } from './component/navigation-mobile/navigation-mobile.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { ProfileSettingsComponent } from './component/profile-settings/profile-s
     ChatUserPageComponent,
     FriendsPageComponent,
     RequestFriendPageComponent,
-    ProfileSettingsComponent
+    ProfileSettingsComponent,
+    NavigationMobileComponent
   ],
   imports: [
     BrowserModule,
