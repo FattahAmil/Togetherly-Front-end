@@ -171,25 +171,6 @@ export class NavBarComponent implements OnInit {
       event.preventDefault();
 
     }
-    
-    // if (event.key === "Backspace" && this.searchInput.length > 0) {
-    //   // Handle "Backspace" key press by removing the last character
-    //   this.searchInput = this.searchInput.slice(0, -1);
-    // } else if(regex.test(event.key)) {
-    //   // Append the pressed key to the search input
-    //   console.log(this.searchInput)
-    // }else if (!regex.test(event.key)) {
-    //   event.preventDefault();
-    //   return;
-    // } 
-    // if (event.key !== "Backspace") {
-    //    this.dataUsersBySearche = this.dataSearch.filter((row) => row['email'].toLowerCase().includes(this.searchInput.toLowerCase().trim().concat(event.key)));
-    
-    // }else{
-    //   this.dataUsersBySearche = this.dataSearch.filter((row) => row['email'].toLowerCase().includes(this.searchInput.toLowerCase().trim()));
-
-    // }
-  //  console.log(this.dataUsersBySearche)
   }
   navigateToProfilePage2(emailProfile:string) {
     this.router.navigate(['/profile', emailProfile]).then(()=>{

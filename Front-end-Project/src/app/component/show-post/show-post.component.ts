@@ -142,7 +142,6 @@ checkIsAdminOrisYourPosts(idUserPost:string){
   return (this.decodeJwt.roles[0] =='ROLE_ADMIN' || this.userDetails.body.id == idUserPost);
 
 }
-
 dropDownMenue(id:number){
   const menu=document.getElementById("dropdownDots"+id);
   if(menu?.classList.contains('hidden')){

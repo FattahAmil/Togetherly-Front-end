@@ -53,5 +53,11 @@ export class PostService {
     
     return this.http.post<any>(`${this.url}/comment`, comment,{headers:this.headers})
   }
+  deleteComment(idComment:number):Observable<any>{
+    const comment={
+      idComment:idComment
+    }
+    return this.http.post<any>(`${this.url}/deleteComment`, comment,{headers:this.headers})
+  }
 
 }

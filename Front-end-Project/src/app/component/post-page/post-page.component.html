@@ -35,8 +35,8 @@
                 </div>
             </div>
             
-                <div *ngIf="!ifTherIsMedia()" draggable="true" class=" flex mt-2 bg-gray-100 rounded-lg shadow-lg w-11/12 h-[100px] ">
-                    <h5 class="m-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{post.content}}</h5>
+                <div *ngIf="!ifTherIsMedia()" draggable="true" class=" flex mt-2 bg-gray-100 rounded-lg shadow-lg w-11/12 ">
+                    <h5 class="m-2 text-2xl font-bold tracking-tight break-all text-gray-900 dark:text-white">{{post.content}}</h5>
                 </div>
            
         </div>
@@ -74,26 +74,35 @@
                     <div class="flex">
                         <img (click)="navigateToProfilePage(post.user.email)" [src]="post.user.profileImage" alt="" class="object-cover cursor-pointer mx-2 object-center w-8 h-8 rounded-full shadow-sm dark:bg-gray-500 dark:border-gray-700">
                         <span (click)="navigateToProfilePage(post.user.email)" class="text-sm cursor-pointer font-semibold">{{post.user.firstName+' '+post.user.lastName}}
-                            <span  class="text-sm cursor-pointer font-normal">{{post.content}}</span>
+                            <span  class="text-sm cursor-pointer break-all font-normal">{{post.content}}</span>
                         </span>
                     </div>
                     <span class="text-xs ml-14 font-normal text-gray-400">{{timeGenerator(post.created_at)}}</span>
                 </div>
-                <div *ngFor="let comment of post.comment" class="space-y-3  mt-4 p-2">
+                <div *ngFor="let comment of post.comment;let i=index" class="space-y-3  mt-4 p-2">
                     <div class="flex justify-between">
                         <div class="flex">
                         <img (click)="navigateToProfilePage(comment.users.email)" [src]="comment.users.profileImage" alt="" class="object-cover cursor-pointer mx-2 object-center w-8 h-8 rounded-full shadow-sm dark:bg-gray-500 dark:border-gray-700">
                         <span (click)="navigateToProfilePage(comment.user.email)" class="text-sm cursor-pointer font-semibold">{{comment.users.firstName+' '+comment.users.lastName}}
-                            <span (click)="navigateToPostPage(post.id)" class="text-sm cursor-pointer font-normal">{{comment.content}}</span>
+                            <span (click)="navigateToPostPage(post.id)" class="text-sm cursor-pointer break-all font-normal">{{comment.content}}</span>
                         </span>
                         </div>
-                        <button *ngIf="checkIsAdminOrIsYourPostsOrIsYourComment(post.user.id,comment.users.id)"  data-dropdown-toggle="dropdownDots" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button"> 
+                        <button *ngIf="checkIsAdminOrIsYourPostsOrIsYourComment(post.user.id,comment.users.id)" (click)="dropDownMenueComment(i)"  data-dropdown-toggle="dropdownDots" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button"> 
                             <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
                               <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
                             </svg>
-                        </button>
+                        </button>   
                     </div>
-                    <span class="text-xs ml-14 font-normal text-gray-400">{{timeGenerator(comment.created_at)}}</span>
+                    <div class="flex justify-between">
+                        <span class="text-xs ml-14 h-7 block font-normal text-gray-400">{{timeGenerator(comment.created_at)}}</span>
+                        <div [id]="'menueDeleteComment'+i"  class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-28 dark:bg-gray-700 dark:divide-gray-600">
+                            <ul class="py-1 text-sm text-red-700 dark:text-red-600" aria-labelledby="dropdownMenuIconButton">
+                                <li>
+                                <a (click)="deleteComment(comment.idComment)" class="block px-2  font-semibold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 
                    
@@ -119,11 +128,12 @@
                     </div>
                 </div>
                 <div class="overflow-hidden flex p-3">
-                    <textarea id="OrderNotes" [(ngModel)]="contentOfComment" class="w-full resize-none border-x-0 border-y-0 border-gray-200 target:border-0 px-0 align-top sm:text-sm" rows="1" placeholder="Add a comment here..."></textarea> 
-                      <button type="button" (click)="createComment()" class="rounded  px-3 py-1.5 text-sm font-medium text-blue-400 hover:text-indigo-500" >
+                    <textarea id="OrderNotes" (keydown)="onWrite($event)" [(ngModel)]="contentOfComment" maxlength="71" class="w-full resize-none border-x-0 border-y-0 border-gray-200 target:border-0 px-0 align-top sm:text-sm" rows="1" placeholder="Add a comment here..."></textarea> 
+                    <button type="button" (click)="createComment()" class="rounded  px-3 py-1.5 text-sm font-medium text-blue-400 hover:text-indigo-500" >
                         send
-                      </button>
-                  </div>
+                    </button>
+                </div>
+                <div class="flex w-10/12 mb-2 justify-end text-xs">{{length}}/70</div>
             </div>
         </div>
     </div>

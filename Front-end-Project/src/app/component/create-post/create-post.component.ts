@@ -24,8 +24,8 @@ export class CreatePostComponent implements OnInit{
   isEvent:false,
   mediaList:[]
  }
-
-
+ length=0;
+ 
  fileData:any;
  @Input()
  userDetails: UserResponse = new UserResponse;
@@ -53,17 +53,27 @@ export class CreatePostComponent implements OnInit{
         fileSize:file.size,
         fileType:file.type,
         mediaUrl: this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file)),
-       // fileContent:window.URL.createObjectURL(file),
        fileContent:myFile,
       };
       
       this.post.mediaList.push(fileHandle);
-    })
-
-    
+    })    
   }
  }
+onWrite(event:any){
+  let regex = /^[a-zA-Z0-9]$/; 
+    if (regex.test(event.key) && this.length<100) {
+      this.length++;
+    }else if(event.key === "Backspace" && this.post.content.length == 1){
+     this.length--;
+    }else if(event.key === "Backspace" && this.post.content.length > 0){
+      this.length--;
+    }
+    else{
+      event.preventDefault();
 
+    }
+}
 onCreate(){
   this.post.id=this.userDetails.body.id;
   this.postService.createPost(this.post).subscribe(value=>{

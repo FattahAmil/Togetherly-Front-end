@@ -35,7 +35,7 @@
                             </div>
                             <div>
                                 <div class="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg">
-                                    <p class="text-sm">{{message.content}}</p>
+                                    <p class="text-sm break-all">{{message.content}}</p>
                                 </div>
                                 <span class="text-xs text-gray-500 leading-none">{{timeGenerator(message.createdAt)}}</span>
                             </div>
@@ -43,7 +43,7 @@
                         <div *ngIf="checkIfSenderorReciever(message.sender.id)" class="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end">
                             <div>
                                 <div class="bg-blue-600 text-white p-3 rounded-l-lg rounded-br-lg">
-                                    <p class="text-sm">{{message.content}}</p>
+                                    <p class="text-sm break-all">{{message.content}}</p>
                                 </div>
                                 <span class="text-xs text-gray-500 leading-none">{{timeGenerator(message.createdAt)}}</span>
                             </div>
@@ -55,8 +55,8 @@
                 </div>
             </div>
             
-            <div class="bg-gray-300 p-4 flex gap-2">
-                <input [(ngModel)]="content" id="MessageInput" class="flex items-center h-10 w-full rounded px-3 text-sm" type="text" placeholder="Type your message…">
+            <div class="bg-gray-300 p-2 flex gap-2">
+                <input [(ngModel)]="content" (keydown)="onWrite($event)" id="MessageInput" maxlength="250" class="flex items-center h-10 w-full rounded px-3 text-sm" type="text" placeholder="Type your message…">
                 <button (click)="sendPrivateMessage()" id="SendButton"  type="button" class="text-white flex gap-2 bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     Send
                     <svg xmlns="http://www.w3.org/2000/svg"  fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -64,6 +64,8 @@
                     </svg>                       
                 </button>
             </div>
+            <div class="bg-gray-300"><div class="flex  w-10/12 mb-2 justify-end text-xs">{{length}}/250</div></div>
+            
         </div>
     </div>
 </div>

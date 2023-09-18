@@ -28,7 +28,9 @@ export class PostPageComponent implements OnInit {
   user!:User;
   isLoading=false;
   isHidden=true;
-  isHidden2=true
+  isHidden2=true;
+  length=0;
+
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -46,6 +48,13 @@ export class PostPageComponent implements OnInit {
     return (this.decodeJwt.roles[0] =='ROLE_ADMIN' || this.userDetails.body.id == idUserPost||this.userDetails.body.id==idUserComment);
   
   }
+  deleteComment(id:number){
+   
+    this.postService.deleteComment(id).subscribe(response=>{
+      console.log(response)
+      this.PostById();
+    })
+  }
 
   getUserDetails(){
     this.userServ.getUserToken().subscribe(
@@ -61,7 +70,7 @@ export class PostPageComponent implements OnInit {
       }
     );
   }
-
+  
   PostById(){
     this.postService.postById(this.idPost).subscribe((response)=>{
       this.post=response.body;
@@ -149,6 +158,29 @@ dropDownMenue(){
   this.isHidden=true;
  
 }
+onWrite(event:any){
+  let regex = /^[a-zA-Z0-9]$/; 
+    if (regex.test(event.key) && this.length<70) {
+      this.length++;
+    }else if(event.key === "Backspace" && this.contentOfComment.length == 1){
+     this.length--;
+    }else if(event.key === "Backspace" && this.contentOfComment.length > 0){
+      this.length--;
+    }
+    else{
+      event.preventDefault();
+
+    }
+}
+dropDownMenueComment(i:number){
+  const menu=document.getElementById("menueDeleteComment"+i);
+  if(menu?.classList.contains('hidden')){
+    menu?.classList.remove('hidden')
+    return;
+  }
+  menu?.classList.add('hidden');
+ 
+}
 dropDownMenueConfirm(){
   if (this.isHidden2==true) {
     this.isHidden2=false;
@@ -172,7 +204,7 @@ createComment(){
     }
   this.postService.createComment(this.post.id,this.userDetails.body.id,this.contentOfComment).subscribe((response)=>{
     this.webSocketService.sendMessageNotif(this.post.user.email,'notif')
-  
+      this.length=0;
       this.contentOfComment='';
       this.PostById();
   })

@@ -22,7 +22,7 @@ export class ChatUserPageComponent implements OnInit {
   allMessage:any;
   ifFriend:any;
   content='';
- 
+  length=0;
 
 constructor(private userService:UserService,private messageService:MessagServiceService,private route: ActivatedRoute,private router:Router,private elementRef: ElementRef, private renderer: Renderer2,private webSocketService:WebSocketService,private CommunicationService:CommunicationServiceService){
  
@@ -40,7 +40,7 @@ constructor(private userService:UserService,private messageService:MessagService
       const allMessages=document.getElementById("allMessages");
       this.webSocketService.onConnect2().subscribe(response=>{
           if (allMessages!=null) {
-            allMessages.innerHTML+='<div><div class="flex w-full mt-2 space-x-3 max-w-xs"><div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"><img class="w-10 h-10 rounded-full" src="'+this.userDetails.body.profileImage+'" alt="Rounded avatar"></div><div><div class="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg"><p class="text-sm">'+response.content+'</p></div><span class="text-xs text-gray-500 leading-none">'+this.timeGenerator(response.createdAt)+'</span></div></div></div>';
+            allMessages.innerHTML+='<div><div class="flex w-full mt-2 space-x-3 max-w-xs"><div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"><img class="w-10 h-10 rounded-full" src="'+this.userDetails.body.profileImage+'" alt="Rounded avatar"></div><div><div class="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg"><p class="text-sm break-all">'+response.content+'</p></div><span class="text-xs text-gray-500 leading-none">'+this.timeGenerator(response.createdAt)+'</span></div></div></div>';
           }
 
       });
@@ -118,8 +118,9 @@ sendPrivateMessage(){
   if (this.content.trim()!='') {
     this.webSocketService.sendPrivateMessage(this.userDetails.body.id,this.idProfile,this.content,'CHAT');
     if(allMessages!=null){
-      allMessages.innerHTML+='<div><div class="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end"><div><div class="bg-blue-600 text-white p-3 rounded-l-lg rounded-br-lg"><p class="text-sm">'+this.content+'</p></div><span class="text-xs text-gray-500 leading-none">'+this.timeGenerator(date.getTime())+'</span></div><div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"><img class="w-10 h-10 rounded-full" src="'+this.userDetails.body.profileImage+'" alt="Rounded avatar"></div></div></div>';
+      allMessages.innerHTML+='<div><div class="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end"><div><div class="bg-blue-600 text-white p-3 rounded-l-lg rounded-br-lg"><p class="text-sm break-all">'+this.content+'</p></div><span class="text-xs text-gray-500 leading-none">'+this.timeGenerator(date.getTime())+'</span></div><div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"><img class="w-10 h-10 rounded-full" src="'+this.userDetails.body.profileImage+'" alt="Rounded avatar"></div></div></div>';
       this.content='';
+      this.length=0
       setTimeout(() => {
         this.webSocketService.sendMessageNotif(this.emailProfile,'send Message');
       }, 400);
@@ -152,12 +153,22 @@ showCheckIfFriend(){
       sendButton?.classList.add('cursor-not-allowed');
     }
   })
-  //  if (this.ifFriend==false) {
-  //     return this.ifFriend=false
-  //   }
-  //   return this.if
-}
 
+}
+onWrite(event:any){
+  let regex = /^[a-zA-Z0-9]$/; 
+    if (regex.test(event.key) && this.length<250) {
+      this.length++;
+    }else if(event.key === "Backspace" && this.content.length == 1){
+     this.length--;
+    }else if(event.key === "Backspace" && this.content.length > 0){
+      this.length--;
+    }
+    else{
+      event.preventDefault();
+
+    }
+}
 
 
 }
