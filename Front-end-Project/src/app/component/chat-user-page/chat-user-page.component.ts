@@ -157,7 +157,7 @@ showCheckIfFriend(){
 }
 onWrite(event:any){
   let regex = /^[a-zA-Z0-9]$/; 
-    if (regex.test(event.key) && this.length<250) {
+    if (regex.test(event.key) && this.length<250 || event.key===" " && this.length<100) {
       this.length++;
     }else if(event.key === "Backspace" && this.content.length == 1){
      this.length--;

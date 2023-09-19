@@ -9,7 +9,7 @@
         </label>
     </div>
     </div>
-    <textarea id="message" (keydown)="onWrite($event)"  maxlength="101" [value]="" rows="2" [(ngModel)]="post.content" class="block p-3 w-full  text-sm text-gray-900 bg-gray-50 rounded-3xl border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
+    <textarea id="message" (keydown)="onWrite($event)"  maxlength="100" [value]="" rows="2" [(ngModel)]="post.content" class="block p-3 w-full  text-sm text-gray-900 bg-gray-50 rounded-3xl border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
     <div class="flex justify-end text-xs">{{length}}/100</div>
     <div class="flex items-center justify-between">
         <div class="  p-3 w-fit h-fit justify-center flex mt-3 rounded-md  hover:bg-gray-100 ">

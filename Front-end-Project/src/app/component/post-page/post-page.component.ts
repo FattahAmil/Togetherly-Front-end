@@ -160,7 +160,7 @@ dropDownMenue(){
 }
 onWrite(event:any){
   let regex = /^[a-zA-Z0-9]$/; 
-    if (regex.test(event.key) && this.length<70) {
+    if (regex.test(event.key) && this.length<70|| event.key===" " && this.length<100) {
       this.length++;
     }else if(event.key === "Backspace" && this.contentOfComment.length == 1){
      this.length--;
