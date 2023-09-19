@@ -46,7 +46,6 @@ export class ProfileSettingsComponent implements OnInit {
       this.imageUrl=response.body.profileImage;
       this.selectedRole=this.userDetails.roles[0].name;
       this.rolePreced=this.userDetails.roles[0].name;
-      console.log(this.rolePreced)
       setTimeout(() => {
       this.isLoading=true
       this.form = new FormGroup({
@@ -86,7 +85,6 @@ export class ProfileSettingsComponent implements OnInit {
           
         });
       }
-        console.log(user)
         setTimeout(() => {
           this.userService.updateUser(user).subscribe(response=>{
           

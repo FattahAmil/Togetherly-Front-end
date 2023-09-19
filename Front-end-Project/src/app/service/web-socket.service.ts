@@ -27,31 +27,15 @@ connect(){
   const ws = new SockJS(SERVER_URL);
     this.stompClient = Stomp.over(ws);
      this.stompClient.connect({},this.onConnect2
-    //  () => {  // Successfully connected
-  
-    //   // Subscribe to the acknowledgment queue to receive acknowledgment messages
-    //   this.stompClient.subscribe('/user/'+this.decodeJwt.sub+"/privateMessage", (response) => {
-    //       // Handle the acknowledgment message
-    //       const receivedMessage = JSON.parse(response.body);
-    //       console.log( receivedMessage.content);
-    //   });
-    // }
     ,this.onError);
 }
 
-onConnect=()=>{
-  this.stompClient.subscribe('/user/'+this.decodeJwt.sub+"/privateMessage", (response) => {
-    // Handle the acknowledgment message
-    const receivedMessage = JSON.parse(response.body);
-  });
-}
+
 onConnect2(): Observable<any> {
   return new Observable<any>((observer) => {
     this.stompClient.subscribe('/user/' + this.decodeJwt.sub + '/privateMessage', (response) => {
-      // Handle the acknowledgment message
       const receivedMessage = JSON.parse(response.body);
 
-      // Emit the received message to observers
       observer.next(receivedMessage);
     });
   });
@@ -59,10 +43,8 @@ onConnect2(): Observable<any> {
 onConnectNotif(): Observable<any> {
   return new Observable<any>((observer) => {
     this.stompClient.subscribe('/user/' + this.decodeJwt.sub + '/notif', (response) => {
-      // Handle the acknowledgment message
       const receivedMessage = JSON.parse(response.body);
 
-      // Emit the received message to observers
       observer.next(receivedMessage);
     });
   });

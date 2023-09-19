@@ -44,7 +44,7 @@ constructor(private userService:UserService,private messageService:MessagService
           }
 
       });
-    }, 700);
+    }, 900);
   }
 
 getUserDetails(){
