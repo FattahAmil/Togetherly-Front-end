@@ -82,6 +82,7 @@ onCreate(){
   if (this.messageTextArea) {
   this.messageTextArea.value='';
   } 
+  this.length=0;
   this.communicationService.triggerFunction();
   });
 }
