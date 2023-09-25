@@ -31,7 +31,7 @@ export class LoginPageComponent {
     } 
     if (this.form.valid) {
       
-   
+   //
       this.AuthenticationService.login(user).subscribe(
         (response) => {
           const data = response as Response;
